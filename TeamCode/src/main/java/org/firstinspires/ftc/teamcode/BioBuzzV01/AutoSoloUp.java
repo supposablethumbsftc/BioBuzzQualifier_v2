@@ -74,14 +74,14 @@ public class AutoSoloUp extends LinearOpMode {
         //Drive in Corner 48 to left back 1 1/2
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                        .splineToLinearHeading(new Pose2d(4,0,Math.toRadians(0)), Math.toRadians(-90))
-                        .splineToLinearHeading(new Pose2d(-1.5,48,Math.toRadians(-90)), Math.toRadians(0))
+                        .splineToLinearHeading(new Pose2d(4,0,Math.toRadians(0)), Math.toRadians(90))
+                        .splineToLinearHeading(new Pose2d(-1.5,48,Math.toRadians(90)), Math.toRadians(0))
                         .build());
 //                far shot
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                         .splineToLinearHeading(new Pose2d(98,24,Math.toRadians(0)), Math.toRadians(-180))
-                        .splineToLinearHeading(new Pose2d(124,-3,Math.toRadians(-180)), Math.toRadians(0))
+                        .splineToLinearHeading(new Pose2d(124,-7,Math.toRadians(-180)), Math.toRadians(0))
                         .build());
 //                Flower
 
