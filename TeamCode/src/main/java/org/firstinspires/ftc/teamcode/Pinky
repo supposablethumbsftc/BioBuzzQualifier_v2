@@ -1,0 +1,29 @@
+import com.qualcom.robotcore.eventloop.opmode.linearOpMode;
+import com.qualcom.robotcore.eventloop.opmode.TeleOp;
+@TeleOp (name = "Lab 1 - Hello Robot")
+public class HelloRobot extends LinearOpMode {
+    @Override
+    public void runOpMode () {
+<<<<<<< HEAD
+    //josh to practice geting new code.
+    telemetry.addData("status", "Robot Ready");
+    telemetry.update();
+    waitForStart();
+    while (opModeIsActive()) {
+        telemetry.addData("Message","Landon es me Gatito");
+        telemetry.addData ("runtime",
+        telemetry.update ();
+=======
+ //josh to practice geting new code.
+    telemetry.addData("Status", "Robot Ready");
+    telemetry.update();
+    waitForStart ();
+    while(opModeIsActive()){
+        telemetry.addData("Message","josh can't do a pull up!");
+        telemetry.addData("Runtime","getRuntime());
+        telemetry.update();
+    }
+
+
+>>>>>>> 9ad5046f660451a2ad7997fa863849f3ceb06fed
+    }

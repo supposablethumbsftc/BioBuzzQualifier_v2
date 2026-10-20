@@ -1,0 +1,33 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
+@TeleOp(name = "Distance Sensor Test", group = "Sensor")
+public class DistanceSensorTest extends LinearOpMode {
+
+    // Define the distance sensor variable
+    private DistanceSensor distanceSensor;
+
+    @Override
+    public void runOpMode() {
+        // Initialize the sensor from the hardware map (must match the config name on the Driver Station)
+        distanceSensor = hardwareMap.get(DistanceSensor.class, "sensor_distance");
+
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+
+        waitForStart();
+
+        while (opModeIsActive()) {
+            // Read distance in centimeters (can also use DistanceUnit.INCH or MM)
+            double distanceCm = distanceSensor.getDistance(DistanceUnit.CM);
+
+            // Send distance data to the Driver Station
+            telemetry.addData("Distance (cm)", distanceCm);
+            telemetry.update();
+        }
+    }
+}
