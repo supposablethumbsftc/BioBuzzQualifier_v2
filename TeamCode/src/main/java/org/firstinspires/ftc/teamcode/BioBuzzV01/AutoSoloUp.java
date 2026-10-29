@@ -75,19 +75,35 @@ public class AutoSoloUp extends LinearOpMode {
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                         .splineToLinearHeading(new Pose2d(4,0,Math.toRadians(0)), Math.toRadians(90))
-                        .splineToLinearHeading(new Pose2d(-1.5,48,Math.toRadians(90)), Math.toRadians(0))
+                        .splineToLinearHeading(new Pose2d(-1.5,47.5,Math.toRadians(90)), Math.toRadians(0))
                         .build());
 //                far shot
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                        .splineToLinearHeading(new Pose2d(98,24,Math.toRadians(0)), Math.toRadians(180))
+                        .splineToLinearHeading(new Pose2d(48,28,Math.toRadians(180)), Math.toRadians(120))
+                        .splineToLinearHeading(new Pose2d(98,24,Math.toRadians(180)), Math.toRadians(0))
                         .splineToLinearHeading(new Pose2d(124,-7,Math.toRadians(180)), Math.toRadians(0))
                         .build());
+        robot.pause(3000);
 //                Flower
+        Actions.runBlocking(
+                boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
+                        .splineToLinearHeading(new Pose2d(118,8,Math.toRadians(-0)), Math.toRadians(90))
+                        .build());
+        robot.pause(4000);
+        Actions.runBlocking(
+                boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
+                        .splineToLinearHeading(new Pose2d(124,-7,Math.toRadians(-180)), Math.toRadians(0))
+                        .build());
 
 //                Shoot
-
+        robot.pause(3000);
 //                park/collect nectar
+        Actions.runBlocking(
+                boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
+                        .splineToLinearHeading(new Pose2d(94,20,Math.toRadians(90)), Math.toRadians(0))
+                        .splineToLinearHeading(new Pose2d(85,40,Math.toRadians(90)), Math.toRadians(0))
+                        .build());
 
 //        Actions.runBlocking(
 //                boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
