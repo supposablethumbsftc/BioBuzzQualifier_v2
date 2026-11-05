@@ -15,12 +15,12 @@ import java.util.ArrayList;
 
 public class CSRobotV01 {
     public Drivetrain drivetrain;
-    public Lift lift;
+ //   public Lift lift;
     public Intake intake;
     //public ElapsedTime timer;
     public Blinkins blinkins;
     public Thumbz thumbz;
-    public Liftlock liftlock;
+  //  public Liftlock liftlock;
     public Turret turret;
     public Shooter shooter;
     private ArrayList <Subsystem> subsystems;
@@ -38,18 +38,18 @@ public class CSRobotV01 {
         this.timer = new ElapsedTime();
         subsystems = new ArrayList<>();
         drivetrain = new Drivetrain(hardwareMap,linearOpMode,timer);
-        lift = new Lift(hardwareMap,linearOpMode,timer);
+    //    lift = new Lift(hardwareMap,linearOpMode,timer);
         intake = new Intake(hardwareMap,linearOpMode,timer);
         turret = new Turret(hardwareMap,linearOpMode,timer);
         thumbz = new Thumbz(hardwareMap,linearOpMode,timer);
-        liftlock = new Liftlock(hardwareMap,linearOpMode,timer);
+   //     liftlock = new Liftlock(hardwareMap,linearOpMode,timer);
         blinkins = new Blinkins(hardwareMap,linearOpMode, timer);
         shooter = new Shooter(hardwareMap, linearOpMode, timer);
         hood = new Hood(hardwareMap,linearOpMode,timer);
         subsystems.add(drivetrain);
-        subsystems.add(lift);
+    //    subsystems.add(lift);
         subsystems.add(intake);
-        subsystems.add(liftlock);
+      //  subsystems.add(liftlock);
         subsystems.add(turret);
         subsystems.add(thumbz);
         subsystems.add(shooter);

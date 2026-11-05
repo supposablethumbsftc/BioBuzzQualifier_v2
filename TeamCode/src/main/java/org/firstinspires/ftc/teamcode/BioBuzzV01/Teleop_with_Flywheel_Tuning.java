@@ -96,12 +96,12 @@ public class Teleop_with_Flywheel_Tuning extends OpMode {
             firstLoop = false;
         }
 
-        liftencoder = robot.lift.currentLiftPosition;
+     //   liftencoder = robot.lift.currentLiftPosition;
 
 //        handleResetMotors();
         handleDrivetrain();
 //        handleTurret();
-        handleLift();
+      //  handleLift();
         handleIntake();
         handleTelemetry();
         handleBlinkinColors();
@@ -164,9 +164,9 @@ public class Teleop_with_Flywheel_Tuning extends OpMode {
         if (gamepad1.left_stick_button && gamepad1.right_stick_button)
         {
 //            robot.arm.EncoderInit();
-            robot.lift.EncoderInit();
+           // robot.lift.EncoderInit();
 //            robot.arm.QuickArmInit();
-            robot.lift.motorInit();
+           // robot.lift.motorInit();
         }
     }
     private void handleDrivetrain() {
@@ -350,11 +350,11 @@ public class Teleop_with_Flywheel_Tuning extends OpMode {
     }
     private void handleLift() {
         if (gamepad1.right_trigger>.05 && gamepad2.right_trigger>.05) {
-            robot.lift.moveLift(1);//ascention of robot
-            robot.liftlock.uplock();
+         //   robot.lift.moveLift(1);//ascention of robot
+           // robot.liftlock.uplock();
         } else if (gamepad1.left_trigger>.05 && gamepad2.left_trigger>.05) {
-            robot.lift.moveLift(-1);//descention of robot
-            robot.liftlock.downlock();
+            //robot.lift.moveLift(-1);//descention of robot
+          //  robot.liftlock.downlock();
         }else{
 //            robot.lift.moveLift(0);
         }
