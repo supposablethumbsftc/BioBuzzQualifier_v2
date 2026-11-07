@@ -17,6 +17,7 @@ public class CSRobotV01 {
     public Drivetrain drivetrain;
  //   public Lift lift;
     public Intake intake;
+    public Transfer transfer;
     //public ElapsedTime timer;
     public Blinkins blinkins;
     public Thumbz thumbz;
@@ -40,6 +41,7 @@ public class CSRobotV01 {
         drivetrain = new Drivetrain(hardwareMap,linearOpMode,timer);
     //    lift = new Lift(hardwareMap,linearOpMode,timer);
         intake = new Intake(hardwareMap,linearOpMode,timer);
+        transfer = new Transfer(hardwareMap,linearOpMode,timer);
         turret = new Turret(hardwareMap,linearOpMode,timer);
         thumbz = new Thumbz(hardwareMap,linearOpMode,timer);
    //     liftlock = new Liftlock(hardwareMap,linearOpMode,timer);
@@ -49,6 +51,7 @@ public class CSRobotV01 {
         subsystems.add(drivetrain);
     //    subsystems.add(lift);
         subsystems.add(intake);
+        subsystems.add(transfer);
       //  subsystems.add(liftlock);
         subsystems.add(turret);
         subsystems.add(thumbz);
