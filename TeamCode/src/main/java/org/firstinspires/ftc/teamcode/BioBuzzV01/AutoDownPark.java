@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.BioBuzzV01;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -32,9 +35,19 @@ public class AutoDownPark extends LinearOpMode {
         robot.motorInit();
 //        robot.arm.QuickArmInit();
         robot.autonomousServoInit();
-        MecanumDrive boxermechanumdrive = new MecanumDrive(hardwareMap,new Pose2d(
+        MecanumDrive boxermechanumdrive = new MecanumDrive(hardwareMap, new Pose2d(
                 0, 0, Math.toRadians(0)
         ));
+        int AprilTagID = 0;
+        boolean tagfound =false;
+
+        Limelight3A limelight;
+
+        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        telemetry.setMsTransmissionInterval(11);
+        limelight.pipelineSwitch(5);
+        limelight.start();
+
         List<LynxModule> hubs = hardwareMap.getAll(LynxModule.class);
         for (LynxModule hub : hubs) {
             if (hub.isParent()) {
@@ -42,7 +55,6 @@ public class AutoDownPark extends LinearOpMode {
                 break;
             }
         }
-
 
 
         waitForStart();
@@ -53,11 +65,11 @@ public class AutoDownPark extends LinearOpMode {
 //--------------------------------------------------------------------------
 
 //  Turn on shooter in overshoot to start ramping up
-     //   voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
-  //      robot.shooter.overshootnearV(voltage);
-   //     robot.hood.off();//hood up
+        //   voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
+        //      robot.shooter.overshootnearV(voltage);
+        //     robot.hood.off();//hood up
         //        Turn intake on
-  //      robot.intake.takein();
+        //      robot.intake.takein();
 //
 //        Up – Solo
 //                shoot
@@ -69,9 +81,33 @@ public class AutoDownPark extends LinearOpMode {
         robot.hood.on();//hood down
 //        Turn on intake
         robot.turret.setturretpos(.99);
-     //   delay 7 or April 7
+        //   delay 7 or April 7
+        timer.reset();
+        tagfound =false;
+while (!tagfound &&  timer.milliseconds()<7000){
+        //        Read april tag
+        LLResult result = limelight.getLatestResult();
+        if (result != null) {
+            if (result.isValid()) {
+                // Access fiducial results
+                List<LLResultTypes.FiducialResult> fiducialResults = result.getFiducialResults();
+                for (LLResultTypes.FiducialResult fr : fiducialResults) {
+                    AprilTagID = fr.getFiducialId();
+                    telemetry.addData("Fiducial", "ID: %d", AprilTagID);
+                    if (AprilTagID == 43)
+                        tagfound=true;
 
-        robot.pause(7000);
+                    telemetry.update();
+
+                }
+            } else {
+                telemetry.addData("Limelight", "No data available");
+            }
+
+            telemetry.update();
+        }
+    }
+       // robot.pause(7000);
         //        shoot
 
         robot.intake.takein();
