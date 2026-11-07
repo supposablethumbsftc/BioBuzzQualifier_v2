@@ -47,7 +47,7 @@ public class Thumbz extends Subsystem {
     public enum Pos{
         BLOCK(.65),
         HALFOPEN(.3),
-        OPEN(.1);
+        OPEN(.25);
 
 
 
@@ -86,8 +86,8 @@ public class Thumbz extends Subsystem {
 
 
     public void open(){
-        thumbzServo1.setPosition(.1);//left servo
-        thumbzServo2.setPosition(.9);//right servo
+        thumbzServo1.setPosition(.35);//left servo
+        thumbzServo2.setPosition(.7);//right servo
     }
     public void block(){
         thumbzServo1.setPosition(.65);

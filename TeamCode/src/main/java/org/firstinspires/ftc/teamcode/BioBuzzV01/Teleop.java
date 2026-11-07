@@ -46,6 +46,7 @@ public class Teleop extends OpMode {
     boolean shooter_is_on_high = false;
 
     boolean intake_is_on = false;
+    boolean transfer_is_on = false;
     double turretoffset = 0;
     double shootervelocity = 0;
     double distance = 0;
@@ -113,12 +114,13 @@ public class Teleop extends OpMode {
         handleDrivetrain();
         handleTurret();
        // handleLift();
+        handleTransfer();
         handleIntake();
         handleTelemetry();
         handleBlinkinColors();
         handleButtons();
         handleShooter();
-        handleHood();
+     //   handleHood();
         handleShooterStateMachine();
         voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
     }
@@ -286,7 +288,7 @@ public class Teleop extends OpMode {
 
 
 
-    private void handleHood() {
+ /*   private void handleHood() {
         if (gamepad1.right_trigger>.05) {
             robot.hood.on();//hood down
         } else if (gamepad1.left_trigger>.05) {
@@ -295,7 +297,7 @@ public class Teleop extends OpMode {
             robot.hood.expel();
         }
         }
-
+*/
     private void handleButtons() {
 //---------------------- ABXY commands-----
         if (!gamepad2.x && !gamepad2.y){ //check if state machine buttons are pressed instead
@@ -388,6 +390,21 @@ public class Teleop extends OpMode {
         } else if (gamepad1.right_bumper) {
             robot.intake.takein();
             intake_is_on = true;
+        }
+
+    }
+    private void handleTransfer() {
+        //    double currentLeftLiftPosition = robot.lift.currentLeftLiftPosition;
+//if ((gamepad1.left_bumper && gamepad1.right_bumper) && intake_is_on) {
+        if (gamepad1.left_bumper && gamepad1.right_bumper) {
+            robot.transfer.stop();
+            intake_is_on = false;
+        } else if (gamepad1.left_bumper) {
+            robot.transfer.takeout();
+            intake_is_on = true;
+        } else if (gamepad1.right_bumper) {
+            robot.transfer.takein();
+            transfer_is_on = true;
         }
 
     }
