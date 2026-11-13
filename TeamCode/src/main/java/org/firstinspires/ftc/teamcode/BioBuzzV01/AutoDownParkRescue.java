@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.BioBuzzV01;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
@@ -154,15 +155,18 @@ public class AutoDownParkRescue extends LinearOpMode {
     }
         else { // tagnotfound
             Actions.runBlocking(
-                    boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                            .lineToYLinearHeading(24,Math.toRadians(-90))
+                            boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
+                            .strafeToConstantHeading(new Vector2d(0, 24))
+                            .turnTo(Math.toRadians(-90))
+                         //   .lineToYLinearHeading(24,Math.toRadians(-90))
                           //  .splineToLinearHeading(new Pose2d(0,24,Math.toRadians(-90)), Math.toRadians(0))
                             //  .splineToLinearHeading(new Pose2d(24,95,Math.toRadians(-90)), Math.toRadians(90))
                             // .splineToLinearHeading(new Pose2d(24,119,Math.toRadians(0)), Math.toRadians(90))
                             .build());
             Actions.runBlocking(
                     boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                            .lineToYLinearHeading(95,Math.toRadians(-90))
+                            .strafeToConstantHeading(new Vector2d(0, 95))
+                            //.lineToYLinearHeading(95,Math.toRadians(-90))
                           //  .splineToLinearHeading(new Pose2d(0,95,Math.toRadians(-90)), Math.toRadians(0))
                           //  .splineToLinearHeading(new Pose2d(24,95,Math.toRadians(-90)), Math.toRadians(90))
                            // .splineToLinearHeading(new Pose2d(24,119,Math.toRadians(0)), Math.toRadians(90))
