@@ -156,7 +156,7 @@ public class AutoDownParkRescue extends LinearOpMode {
         else { // tagnotfound
             Actions.runBlocking(
                             boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                            .strafeToConstantHeading(new Vector2d(0, 24))
+                            .strafeToConstantHeading(new Vector2d(4, 24))
                             .turnTo(Math.toRadians(-90))
                          //   .lineToYLinearHeading(24,Math.toRadians(-90))
                           //  .splineToLinearHeading(new Pose2d(0,24,Math.toRadians(-90)), Math.toRadians(0))
@@ -165,25 +165,34 @@ public class AutoDownParkRescue extends LinearOpMode {
                             .build());
             Actions.runBlocking(
                     boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                            .strafeToConstantHeading(new Vector2d(0, 95))
-                            //.lineToYLinearHeading(95,Math.toRadians(-90))
-                          //  .splineToLinearHeading(new Pose2d(0,95,Math.toRadians(-90)), Math.toRadians(0))
-                          //  .splineToLinearHeading(new Pose2d(24,95,Math.toRadians(-90)), Math.toRadians(90))
-                           // .splineToLinearHeading(new Pose2d(24,119,Math.toRadians(0)), Math.toRadians(90))
+                          .splineToLinearHeading(new Pose2d(6,65,Math.toRadians(-90)), Math.toRadians(-90))
+                            .splineToLinearHeading(new Pose2d(6,105,Math.toRadians(-90)), Math.toRadians(-90))
                             .build());
+            voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
+            robot.shooter.nearV(voltage);
+            robot.hood.on();//hood down
             Actions.runBlocking(
                     boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                           //  .splineToLinearHeading(new Pose2d(0,95,Math.toRadians(-90)), Math.toRadians(0))
-                              .splineToLinearHeading(new Pose2d(24,95,Math.toRadians(-90)), Math.toRadians(90))
-                             .splineToLinearHeading(new Pose2d(24,119,Math.toRadians(0)), Math.toRadians(90))
+                              .splineToLinearHeading(new Pose2d(32,105,Math.toRadians(-90)), Math.toRadians(90))
+                             .splineToLinearHeading(new Pose2d(32,119,Math.toRadians(-90)), Math.toRadians(90))
                             .build());
+            robot.turret.setturretpos(.4);
+            //        shoot
+
+            robot.intake.takein();
+            robot.thumbz.open();
+
+            robot.pause(1000);
+            robot.thumbz.block();
+            robot.shooter.stop();
         }
          //        park/collect nectar
         robot.intake.takein();
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                        .splineToLinearHeading(new Pose2d(4,14,Math.toRadians(0)), Math.toRadians(0))
-                        .splineToLinearHeading(new Pose2d(42,20,Math.toRadians(0)), Math.toRadians(0))
+                       // .splineToLinearHeading(new Pose2d(4,14,Math.toRadians(0)), Math.toRadians(0))
+                        .splineToLinearHeading(new Pose2d(42,20,Math.toRadians(-90)), Math.toRadians(0))
                         .splineToLinearHeading(new Pose2d(50,16,Math.toRadians(0)), Math.toRadians(90))
                         .build());
 
