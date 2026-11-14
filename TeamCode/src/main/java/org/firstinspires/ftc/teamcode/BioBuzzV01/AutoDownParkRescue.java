@@ -98,7 +98,7 @@ public class AutoDownParkRescue extends LinearOpMode {
                         if (AprilTagID == 44) {
                             tagfound = true;
                             robot.turret.setturretpos(.99);
-                        } else if (AprilTagID == 32) {
+                        } else if (AprilTagID == 40) {
                             tagfound = true;
                             robot.turret.setturretpos(.99);
                         }

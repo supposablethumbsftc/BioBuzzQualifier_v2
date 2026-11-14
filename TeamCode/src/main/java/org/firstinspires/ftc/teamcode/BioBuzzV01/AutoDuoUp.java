@@ -9,7 +9,9 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 import org.firstinspires.ftc.teamcode.BioBuzzV01.AbstractClasses.MatchInformation;
 import org.firstinspires.ftc.teamcode.BioBuzzV01.Subsystems.CSRobotV01;
@@ -35,7 +37,7 @@ public class AutoDuoUp extends LinearOpMode {
         robot.motorInit();
 //        robot.arm.QuickArmInit();
         robot.autonomousServoInit();
-        MecanumDrive boxermechanumdrive = new MecanumDrive(hardwareMap,new Pose2d(
+        MecanumDrive boxermechanumdrive = new MecanumDrive(hardwareMap, new Pose2d(
                 0, 0, Math.toRadians(0)
         ));
         int AprilTagID = 0;
@@ -57,7 +59,6 @@ public class AutoDuoUp extends LinearOpMode {
         }
 
 
-
         waitForStart();
 
 //--------------------------------------------------------------------------
@@ -66,11 +67,11 @@ public class AutoDuoUp extends LinearOpMode {
 //--------------------------------------------------------------------------
 
 //  Turn on shooter in overshoot to start ramping up
-     //   voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
-  //      robot.shooter.overshootnearV(voltage);
-   //     robot.hood.off();//hood up
+        //   voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
+        //      robot.shooter.overshootnearV(voltage);
+        //     robot.hood.off();//hood up
         //        Turn intake on
-  //      robot.intake.takein();
+        //      robot.intake.takein();
 //
 //        Up – Solo
 //                shoot
@@ -88,7 +89,7 @@ public class AutoDuoUp extends LinearOpMode {
 
         robot.pause(1000);
         robot.thumbz.block();
-        robot.shooter.stop();
+       // robot.shooter.stop();
         robot.turret.setturretpos(.5);
         // close Blockers
 //               Collect in corner
@@ -97,108 +98,63 @@ public class AutoDuoUp extends LinearOpMode {
         //Drive in Corner 48 to left back 1 1/2
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                       // .splineToLinearHeading(new Pose2d(0,-4,Math.toRadians(0)), Math.toRadians(90))
-                        .splineToLinearHeading(new Pose2d(47.5,1.5,Math.toRadians(0)), Math.toRadians(0))
+                        // .splineToLinearHeading(new Pose2d(0,-4,Math.toRadians(0)), Math.toRadians(90))
+                        .splineToLinearHeading(new Pose2d(47.5, 1.5, Math.toRadians(0)), Math.toRadians(0))
                         .build());
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                         // .splineToLinearHeading(new Pose2d(0,-4,Math.toRadians(0)), Math.toRadians(90))
-                        .splineToLinearHeading(new Pose2d(0,0,Math.toRadians(0)), Math.toRadians(0))
+                        .splineToLinearHeading(new Pose2d(0, 0, Math.toRadians(0)), Math.toRadians(0))
                         .build());
         //   delay 7 or April 7
-        robot.turret.setturretpos(.01);
+        robot.turret.setturretpos(.1);
+        Set<Integer> targetTags = new HashSet<>(Arrays.asList(35, 43, 42, 34));
         timer.reset();
         tagfound = false;
-        while (!tagfound && timer.milliseconds() < 7000) {
-            //        Read april tag
+        while (!tagfound && timer.milliseconds() < 7000 && opModeIsActive()) {
             LLResult result = limelight.getLatestResult();
-            if (result != null) {
-                if (result.isValid()) {
-                    // Access fiducial results
-                    List<LLResultTypes.FiducialResult> fiducialResults = result.getFiducialResults();
-                    for (LLResultTypes.FiducialResult fr : fiducialResults) {
-                        AprilTagID = fr.getFiducialId();
-                        telemetry.addData("Fiducial", "ID: %d", AprilTagID);
-                        if (AprilTagID == 39) {
-                            tagfound = true;
-                            robot.turret.setturretpos(.01);
-                        } else if (AprilTagID == 35) {
-                            tagfound = true;
-                            robot.turret.setturretpos(.01);
-                        }
 
-                        telemetry.update();
+            if (result != null && result.isValid()) {
+                List<LLResultTypes.FiducialResult> fiducials = result.getFiducialResults();
 
+                for (LLResultTypes.FiducialResult fr : fiducials) {
+                    int tagId = fr.getFiducialId();
+
+                    if (targetTags.contains(tagId)) {
+                        tagfound = true;
+                        int foundTagID = tagId;
+                        telemetry.addData("Matched Tag", tagId);
+                        break; // Stop checking fiducials once a target tag is matched
                     }
-                } else {
-                    telemetry.addData("Limelight", "No data available");
                 }
-
-                telemetry.update();
             }
         }
-        if (tagfound) {
-            robot.pause(1000);
-            //        shoot
+            telemetry.update();
+        
 
-            robot.intake.takein();
-            robot.thumbz.open();
 
-            robot.pause(1000);
-            robot.thumbz.block();
-            robot.shooter.stop();
-        }
-        //Parking
-        Actions.runBlocking(
-                boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                        .splineToLinearHeading(new Pose2d(28,-48,Math.toRadians(0)), Math.toRadians(-60))
-                        .splineToLinearHeading(new Pose2d(20,-94,Math.toRadians(0)), Math.toRadians(0))
-                        .splineToLinearHeading(new Pose2d( 35,-90,Math.toRadians(0)), Math.toRadians(0))
-                        .build());
-//                far shot
-       /* Actions.runBlocking(
-                boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                        .splineToLinearHeading(new Pose2d(28,-48,Math.toRadians(0)), Math.toRadians(-60))
-                     //   .splineToLinearHeading(new Pose2d(24,-98,Math.toRadians(-90)), Math.toRadians(0))
-                        .splineToLinearHeading(new Pose2d(8,-118,Math.toRadians(0)), Math.toRadians(0))
-                        .build());
-        robot.shooter.nearV(voltage);
+            if (tagfound) {
+                robot.pause(1000);
+                //        shoot
 
-        robot.turret.setturretpos(.99);
-        robot.pause(1000);
-        robot.thumbz.open();
-        robot.pause(2000);
-        robot.thumbz.block();
-        robot.shooter.stop();
-//                Flower
-        Actions.runBlocking(
-                boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                        .splineToLinearHeading(new Pose2d(8,-114,Math.toRadians(-90)), Math.toRadians(-90))
-                        .splineToLinearHeading(new Pose2d(8,-118,Math.toRadians(-90)), Math.toRadians(-90))
-                        .build());
-        robot.pause(4000);
-        Actions.runBlocking(
-                boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                        .splineToLinearHeading(new Pose2d(8,-118,Math.toRadians(0)), Math.toRadians(0))
-                        .build());
+                robot.intake.takein();
+                robot.thumbz.open();
 
-//                Shoot
-        robot.turret.setturretpos(.99);
-        robot.thumbz.open();
-        robot.pause(2000);
-        robot.thumbz.block();
-//                park/collect nectar
-        Actions.runBlocking(
-                boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                        .splineToLinearHeading(new Pose2d(20,-94,Math.toRadians(0)), Math.toRadians(0))
-                        .splineToLinearHeading(new Pose2d( 40,-85,Math.toRadians(0)), Math.toRadians(0))
-                        .build());
+                robot.pause(2000);
+                robot.thumbz.block();
+               // robot.shooter.stop();
+            }
 
-//        Actions.runBlocking(
-//                boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-//                        .splineToLinearHeading(new Pose2d(4,-8,Math.toRadians(0)), Math.toRadians(0))
-//                        .build());
-*/
+            //Parking
+            Actions.runBlocking(
+                    boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
+                            .splineToLinearHeading(new Pose2d(28, -48, Math.toRadians(0)), Math.toRadians(-60))
+                            .splineToLinearHeading(new Pose2d(24, -94, Math.toRadians(0)), Math.toRadians(0))
+                            .splineToLinearHeading(new Pose2d(35, -90, Math.toRadians(0)), Math.toRadians(0))
+                            .build());
+
+
+
+
     }
-
 }
