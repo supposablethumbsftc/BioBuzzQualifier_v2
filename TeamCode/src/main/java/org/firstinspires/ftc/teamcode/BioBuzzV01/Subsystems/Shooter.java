@@ -68,58 +68,58 @@ public double TicksPerRev;
 
 //        Shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        Shooter.setPower(.7);
-        Shooter.setVelocity(0.275*2800* (1+ 0.04*(13.00
+        Shooter.setVelocity(0.7*2800* (1+ 0.04*(13.00
  - voltage)), AngleUnit.DEGREES);
     }
     public void overshootfar() {
 
 //        Shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        Shooter.setPower(.7);
-        Shooter.setVelocity(0.275*2800, AngleUnit.DEGREES);
+        Shooter.setVelocity(0.7*2800, AngleUnit.DEGREES);
     }
     public void farV(double voltage) {
 
 //        Shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        Shooter.setPower(.7);
-        Shooter.setVelocity(0.275*2800* (1+ 0.04*(13.25 - voltage)), AngleUnit.DEGREES);
+        Shooter.setVelocity(0.7*2800* (1+ 0.04*(13.25 - voltage)), AngleUnit.DEGREES);
     }
     public void far() {
 
 //        Shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        Shooter.setPower(.7);
-        Shooter.setVelocity(0.275*2800, AngleUnit.DEGREES);
+        Shooter.setVelocity(0.57*2800, AngleUnit.DEGREES);
     }
     public void overshootnearV(double voltage) {
 
 //        Shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        Shooter.setVelocity(0.22 *2800* (1+ 0.04*(13.25 - voltage)), AngleUnit.DEGREES);
+        Shooter.setVelocity(0.57 *2800* (1+ 0.04*(13.25 - voltage)), AngleUnit.DEGREES);
     }
     public void overshootnear() {
 
 //        Shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        Shooter.setVelocity(0.22
+        Shooter.setVelocity(0.57
 *2800, AngleUnit.DEGREES);
     }
     public void fireballnearlow() {
 
 //        Shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        Shooter.setVelocity(0.22 *2800, AngleUnit.DEGREES);
+        Shooter.setVelocity(0.57 *2800, AngleUnit.DEGREES);
     }
     public void fireballnearhigh() {
 
 //        Shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        Shooter.setVelocity(0.22 *2800, AngleUnit.DEGREES);
+        Shooter.setVelocity(0.57 *2800, AngleUnit.DEGREES);
     }
     public void nearV(double voltage) {
 
 //        Shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        Shooter.setVelocity(0.19 *2800* (1+ 0.04*(13.25 - voltage)), AngleUnit.DEGREES);
+        Shooter.setVelocity(0.57 *2800* (1+ 0.04*(13.25 - voltage)), AngleUnit.DEGREES);
     }
 
     public void near() {
 
 //        Shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            Shooter.setVelocity(.22 *2800, AngleUnit.DEGREES);
+            Shooter.setVelocity(.57 *2800, AngleUnit.DEGREES);
         }
 
 

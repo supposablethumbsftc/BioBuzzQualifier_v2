@@ -142,7 +142,7 @@ public class AutoDuoUp extends LinearOpMode {
                     boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                             .splineToLinearHeading(new Pose2d(28, -48, Math.toRadians(0)), Math.toRadians(-60))
                             .splineToLinearHeading(new Pose2d(24, -94, Math.toRadians(0)), Math.toRadians(0))
-                            .splineToLinearHeading(new Pose2d(35, -90, Math.toRadians(0)), Math.toRadians(0))
+                            .splineToLinearHeading(new Pose2d(37, -90, Math.toRadians(0)), Math.toRadians(0))
                             .build());
 
 

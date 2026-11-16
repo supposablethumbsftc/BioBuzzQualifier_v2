@@ -343,13 +343,13 @@ public class Teleop extends OpMode {
             shooter_is_on_low = false;
             shooter_is_on_high = false;
         } else if (gamepad1.dpad_down||shooter_is_on_low) {
-            shootervelocity = 0.22 * (1+ 0.04*(13.00
+            shootervelocity = 0.56 * (1+ 0.04*(13.00
  - voltage));
             robot.shooter.setVelocity(shootervelocity);
             shooter_is_on = true;
             shooter_is_on_low = true;
         } else if (gamepad1.dpad_up||shooter_is_on_high) {
-            shootervelocity = 0.275* (1+ 0.04*(13.00
+            shootervelocity = 0.7* (1+ 0.04*(13.00
  - voltage));
             robot.shooter.setVelocity(shootervelocity);
             shooter_is_on = true;
