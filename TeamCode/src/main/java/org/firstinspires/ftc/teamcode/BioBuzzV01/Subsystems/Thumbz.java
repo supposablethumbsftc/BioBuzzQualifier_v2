@@ -75,27 +75,28 @@ public class Thumbz extends Subsystem {
     @Override
     public void teleopServoInit() {
         thumbzServo1.setPosition(1);
-        thumbzServo2.setPosition(.35);
+        thumbzServo2.setPosition(0);
     }
 
     @Override
     public void autonomousServoInit() {
         thumbzServo1.setPosition(1);
-        thumbzServo2.setPosition(.35);
+        thumbzServo2.setPosition(0);
     }
 
 
     public void open(){
-        thumbzServo1.setPosition(1);//left servo
-        thumbzServo2.setPosition(.7);//right servo
+        thumbzServo1.setPosition(.4);//left servo
+        thumbzS
+    ervo2.setPosition(.35);//right servo
     }
     public void block(){
         thumbzServo1.setPosition(.6);
-        thumbzServo2.setPosition(.35);
+        thumbzServo2.setPosition(0);
     }
     public void halfopen(){
         thumbzServo1.setPosition(.8);
-        thumbzServo2.setPosition(.7);
+        thumbzServo2.setPosition(.1);
     }
 
 
