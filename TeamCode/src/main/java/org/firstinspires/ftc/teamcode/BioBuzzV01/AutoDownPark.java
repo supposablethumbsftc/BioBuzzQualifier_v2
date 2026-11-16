@@ -110,6 +110,7 @@ public class AutoDownPark extends LinearOpMode {
         //        shoot
 
         robot.intake.takein();
+        robot.transfer.takein();
         robot.thumbz.open();
 
         robot.pause(1000);

@@ -137,6 +137,7 @@ public class AutoDownParkRescue extends LinearOpMode {
         //        shoot
 
         robot.intake.takein();
+        robot.transfer.takein();
         robot.thumbz.open();
 
         robot.pause(1000);
@@ -172,6 +173,7 @@ public class AutoDownParkRescue extends LinearOpMode {
         robot.shooter.stop();
         //park and collect nectar
             robot.intake.takein();
+            robot.transfer.takein();
             robot.turret.setturretpos(.4);
             Actions.runBlocking(
                     boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
@@ -203,6 +205,7 @@ public class AutoDownParkRescue extends LinearOpMode {
             //        shoot
 
             robot.intake.takein();
+            robot.transfer.takein();
             robot.thumbz.open();
 
             robot.pause(1000);
@@ -211,6 +214,7 @@ public class AutoDownParkRescue extends LinearOpMode {
 
 
             robot.intake.takein();
+            robot.transfer.takein();
             Actions.runBlocking(
                     boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                             // .splineToLinearHeading(new Pose2d(4,14,Math.toRadians(0)), Math.toRadians(0))
