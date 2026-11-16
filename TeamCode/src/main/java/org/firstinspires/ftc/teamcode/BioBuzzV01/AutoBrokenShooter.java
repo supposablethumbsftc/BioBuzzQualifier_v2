@@ -55,20 +55,13 @@ public class AutoBrokenShooter extends LinearOpMode {
         waitForStart();
 
 //--------------------------------------------------------------------------
-//        Red Close Auto No April Tags Open Goal after 3 -------------------
-//        Branch 1 - No Partner Auto, 9 ArtifactS           -------------------
+//        Broken Shooter
+//        Just leave wall and park (8 points)
 //--------------------------------------------------------------------------
 
-//  Turn on shooter in overshoot to start ramping up
-     //   voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
-  //      robot.shooter.overshootnearV(voltage);
-   //     robot.hood.off();//hood up
-        //        Turn intake on
-  //      robot.intake.takein();
 
-//        Broken Shooter
 
-//        drive forward 4 in
+//        drive forward 4 in and right 8 inches
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                         .splineToLinearHeading(new Pose2d(4,-8,Math.toRadians(0)), Math.toRadians(0))

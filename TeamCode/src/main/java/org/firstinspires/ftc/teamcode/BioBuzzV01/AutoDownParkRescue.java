@@ -16,7 +16,10 @@ import org.firstinspires.ftc.teamcode.BioBuzzV01.AbstractClasses.MatchInformatio
 import org.firstinspires.ftc.teamcode.BioBuzzV01.Subsystems.CSRobotV01;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Autonomous (name="Down Park Rescue",group="test")
 public class AutoDownParkRescue extends LinearOpMode {
@@ -61,58 +64,74 @@ public class AutoDownParkRescue extends LinearOpMode {
         waitForStart();
 
 //--------------------------------------------------------------------------
-//        Red Close Auto No April Tags Open Goal after 3 -------------------
-//        Branch 1 - No Partner Auto, 9 ArtifactS           -------------------
+//        Down - Park with Rescue
+//        Wait to see goal tip - if it does not drive across field to shoot from partner side
+//        Otherwise fire and flower and fire and park
 //--------------------------------------------------------------------------
 
-//  Turn on shooter in overshoot to start ramping up
-        //   voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
-        //      robot.shooter.overshootnearV(voltage);
-        //     robot.hood.off();//hood up
-        //        Turn intake on
-        //      robot.intake.takein();
-//
-//        Up – Solo
 //                shoot
         //Turn on shooter motor
         //Open Blockers
         // Pause - 3 sec
+        //  Turn on shooter in overshoot to start ramping up
         voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
         robot.shooter.nearV(voltage);
         robot.hood.on();//hood down
 //        Turn on intake
         robot.turret.setturretpos(.85);
         //   delay 7 or April 7
+        Set<Integer> targetTags = new HashSet<>(Arrays.asList(40, 41, 32, 33));
         timer.reset();
         tagfound = false;
-        while (!tagfound && timer.milliseconds() < 7000) {
-            //        Read april tag
+        while (!tagfound && timer.milliseconds() < 7000 && opModeIsActive()) {
             LLResult result = limelight.getLatestResult();
-            if (result != null) {
-                if (result.isValid()) {
-                    // Access fiducial results
-                    List<LLResultTypes.FiducialResult> fiducialResults = result.getFiducialResults();
-                    for (LLResultTypes.FiducialResult fr : fiducialResults) {
-                        AprilTagID = fr.getFiducialId();
-                        telemetry.addData("Fiducial", "ID: %d", AprilTagID);
-                        if (AprilTagID == 44) {
-                            tagfound = true;
-                            robot.turret.setturretpos(.99);
-                        } else if (AprilTagID == 40) {
-                            tagfound = true;
-                            robot.turret.setturretpos(.99);
-                        }
 
-                        telemetry.update();
+            if (result != null && result.isValid()) {
+                List<LLResultTypes.FiducialResult> fiducials = result.getFiducialResults();
 
+                for (LLResultTypes.FiducialResult fr : fiducials) {
+                    int tagId = fr.getFiducialId();
+
+                    if (targetTags.contains(tagId)) {
+                        tagfound = true;
+                        int foundTagID = tagId;
+                        telemetry.addData("Matched Tag", tagId);
+                        break; // Stop checking fiducials once a target tag is matched
                     }
-                } else {
-                    telemetry.addData("Limelight", "No data available");
                 }
-
-                telemetry.update();
             }
         }
+        telemetry.update();
+//        timer.reset();
+//        tagfound = false;
+//        while (!tagfound && timer.milliseconds() < 7000) {
+//            //        Read april tag
+//            LLResult result = limelight.getLatestResult();
+//            if (result != null) {
+//                if (result.isValid()) {
+//                    // Access fiducial results
+//                    List<LLResultTypes.FiducialResult> fiducialResults = result.getFiducialResults();
+//                    for (LLResultTypes.FiducialResult fr : fiducialResults) {
+//                        AprilTagID = fr.getFiducialId();
+//                        telemetry.addData("Fiducial", "ID: %d", AprilTagID);
+//                        if (AprilTagID == 44) {
+//                            tagfound = true;
+//                            robot.turret.setturretpos(.99);
+//                        } else if (AprilTagID == 40) {
+//                            tagfound = true;
+//                            robot.turret.setturretpos(.99);
+//                        }
+//
+//                        telemetry.update();
+//
+//                    }
+//                } else {
+//                    telemetry.addData("Limelight", "No data available");
+//                }
+//
+//                telemetry.update();
+//            }
+//        }
         if (tagfound){
         robot.pause(1000);
         //        shoot
@@ -121,12 +140,11 @@ public class AutoDownParkRescue extends LinearOpMode {
         robot.thumbz.open();
 
         robot.pause(1000);
+            // close Blockers
         robot.thumbz.block();
         robot.shooter.stop();
         //  robot.turret.setturretpos(.5);
-        // close Blockers
-//               Collect in corner
-        //Turn on intake
+
         //                flower x=8, y=6, -90
 
 
@@ -136,9 +154,9 @@ public class AutoDownParkRescue extends LinearOpMode {
                         .splineToLinearHeading(new Pose2d(17, 6, Math.toRadians(-90)), Math.toRadians(270))
                         .build());
         robot.pause(4000);
+
+
         //        shoot
-
-
 //                far shot
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
@@ -158,10 +176,6 @@ public class AutoDownParkRescue extends LinearOpMode {
                             boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                             .strafeToConstantHeading(new Vector2d(4, 24))
                             .turnTo(Math.toRadians(-90))
-                         //   .lineToYLinearHeading(24,Math.toRadians(-90))
-                          //  .splineToLinearHeading(new Pose2d(0,24,Math.toRadians(-90)), Math.toRadians(0))
-                            //  .splineToLinearHeading(new Pose2d(24,95,Math.toRadians(-90)), Math.toRadians(90))
-                            // .splineToLinearHeading(new Pose2d(24,119,Math.toRadians(0)), Math.toRadians(90))
                             .build());
             Actions.runBlocking(
                     boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
@@ -173,7 +187,6 @@ public class AutoDownParkRescue extends LinearOpMode {
             robot.hood.on();//hood down
             Actions.runBlocking(
                     boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                          //  .splineToLinearHeading(new Pose2d(0,95,Math.toRadians(-90)), Math.toRadians(0))
                               .splineToLinearHeading(new Pose2d(32,105,Math.toRadians(-90)), Math.toRadians(90))
                              .splineToLinearHeading(new Pose2d(32,119,Math.toRadians(-90)), Math.toRadians(90))
                             .build());

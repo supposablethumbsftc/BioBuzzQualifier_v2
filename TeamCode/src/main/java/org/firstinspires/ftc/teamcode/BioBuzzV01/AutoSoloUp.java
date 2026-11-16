@@ -49,22 +49,15 @@ public class AutoSoloUp extends LinearOpMode {
         waitForStart();
 
 //--------------------------------------------------------------------------
-//        Red Close Auto No April Tags Open Goal after 3 -------------------
-//        Branch 1 - No Partner Auto, 9 ArtifactS           -------------------
+//        Up – Solo
+//        Assume partner has no auto shooting and only parks
 //--------------------------------------------------------------------------
 
-//  Turn on shooter in overshoot to start ramping up
-     //   voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
-  //      robot.shooter.overshootnearV(voltage);
-   //     robot.hood.off();//hood up
-        //        Turn intake on
-  //      robot.intake.takein();
-//
-//        Up – Solo
 //                shoot
         //Turn on shooter motor
         //Open Blockers
         // Pause - 3 sec
+        //  Turn on shooter in overshoot to start ramping up
         voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
         robot.shooter.nearV(voltage);
         robot.hood.on();//hood down
@@ -79,6 +72,7 @@ public class AutoSoloUp extends LinearOpMode {
         robot.shooter.stop();
         robot.turret.setturretpos(.5);
         // close Blockers
+
 //               Collect in corner
         //Turn on intake
 
@@ -120,17 +114,13 @@ public class AutoSoloUp extends LinearOpMode {
         robot.thumbz.open();
         robot.pause(2000);
         robot.thumbz.block();
+
 //                park/collect nectar
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                         .splineToLinearHeading(new Pose2d(20,-94,Math.toRadians(0)), Math.toRadians(0))
                         .splineToLinearHeading(new Pose2d( 40,-85,Math.toRadians(0)), Math.toRadians(0))
                         .build());
-
-//        Actions.runBlocking(
-//                boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-//                        .splineToLinearHeading(new Pose2d(4,-8,Math.toRadians(0)), Math.toRadians(0))
-//                        .build());
 
     }
 

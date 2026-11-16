@@ -60,22 +60,15 @@ public class AutoDownPark extends LinearOpMode {
         waitForStart();
 
 //--------------------------------------------------------------------------
-//        Red Close Auto No April Tags Open Goal after 3 -------------------
-//        Branch 1 - No Partner Auto, 9 ArtifactS           -------------------
+//        Down - park
+//        Assume partner has good up auto wait for goal to tip and then shoot
 //--------------------------------------------------------------------------
 
-//  Turn on shooter in overshoot to start ramping up
-        //   voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
-        //      robot.shooter.overshootnearV(voltage);
-        //     robot.hood.off();//hood up
-        //        Turn intake on
-        //      robot.intake.takein();
-//
-//        Up – Solo
 //                shoot
         //Turn on shooter motor
         //Open Blockers
         // Pause - 3 sec
+        //  Turn on shooter in overshoot to start ramping up
         voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
         robot.shooter.nearV(voltage);
         robot.hood.on();//hood down
@@ -122,9 +115,7 @@ public class AutoDownPark extends LinearOpMode {
         robot.pause(1000);
         robot.thumbz.block();
         robot.shooter.stop();
-        //  robot.turret.setturretpos(.5);
-        // close Blockers
-//               Collect in corner
+
         //Turn on intake
         //                flower x=8, y=6, -90
 
@@ -135,8 +126,8 @@ public class AutoDownPark extends LinearOpMode {
                         .splineToLinearHeading(new Pose2d(17, 6, Math.toRadians(-90)), Math.toRadians(270))
                         .build());
         robot.pause(4000);
-        //        shoot
 
+        //        return to shoot
 
 //                far shot
         Actions.runBlocking(
@@ -152,6 +143,7 @@ public class AutoDownPark extends LinearOpMode {
         robot.thumbz.block();
         robot.shooter.stop();
     }
+
          //        park/collect nectar
         robot.intake.takein();
         Actions.runBlocking(

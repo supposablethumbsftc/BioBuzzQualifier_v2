@@ -62,22 +62,14 @@ public class AutoDuoUp extends LinearOpMode {
         waitForStart();
 
 //--------------------------------------------------------------------------
-//        Red Close Auto No April Tags Open Goal after 3 -------------------
-//        Branch 1 - No Partner Auto, 9 ArtifactS           -------------------
+//        Up – Duo
+//        Assume working with partner that starts in down position and can score/tip goal back
 //--------------------------------------------------------------------------
-
-//  Turn on shooter in overshoot to start ramping up
-        //   voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
-        //      robot.shooter.overshootnearV(voltage);
-        //     robot.hood.off();//hood up
-        //        Turn intake on
-        //      robot.intake.takein();
-//
-//        Up – Solo
 //                shoot
         //Turn on shooter motor
         //Open Blockers
         // Pause - 3 sec
+        //  Turn on shooter in overshoot to start ramping up
         voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
         robot.shooter.nearV(voltage);
         robot.hood.on();//hood down
