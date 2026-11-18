@@ -97,8 +97,9 @@ public class AutoSoloUp extends LinearOpMode {
         robot.thumbz.open();
         robot.pause(2000);
         robot.thumbz.block();
-        robot.shooter.stop();
+     //   robot.shooter.stop();
 //                Flower
+        robot.funnel.on();
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                         .splineToLinearHeading(new Pose2d(8,-114,Math.toRadians(-90)), Math.toRadians(-90))
@@ -115,12 +116,12 @@ public class AutoSoloUp extends LinearOpMode {
         robot.thumbz.open();
         robot.pause(2000);
         robot.thumbz.block();
-
+        robot.funnel.off();
 //                park/collect nectar
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                         .splineToLinearHeading(new Pose2d(20,-94,Math.toRadians(0)), Math.toRadians(0))
-                        .splineToLinearHeading(new Pose2d( 40,-85,Math.toRadians(0)), Math.toRadians(0))
+                        .splineToLinearHeading(new Pose2d( 42,-85,Math.toRadians(0)), Math.toRadians(0))
                         .build());
 
     }

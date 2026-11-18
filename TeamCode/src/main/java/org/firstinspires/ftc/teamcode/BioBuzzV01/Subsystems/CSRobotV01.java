@@ -28,6 +28,7 @@ public class CSRobotV01 {
     private LinearOpMode linearOpMode;
     public ElapsedTime timer;
     public Hood hood;
+    public Funnel funnel;
 
 
     //public OpenCVDetector detector;
@@ -48,6 +49,7 @@ public class CSRobotV01 {
         blinkins = new Blinkins(hardwareMap,linearOpMode, timer);
         shooter = new Shooter(hardwareMap, linearOpMode, timer);
         hood = new Hood(hardwareMap,linearOpMode,timer);
+        funnel = new Funnel(hardwareMap,linearOpMode,timer);
         subsystems.add(drivetrain);
     //    subsystems.add(lift);
         subsystems.add(intake);
@@ -57,6 +59,7 @@ public class CSRobotV01 {
         subsystems.add(thumbz);
         subsystems.add(shooter);
         subsystems.add(hood);
+        subsystems.add(funnel);
         subsystems.add(blinkins);
 
 

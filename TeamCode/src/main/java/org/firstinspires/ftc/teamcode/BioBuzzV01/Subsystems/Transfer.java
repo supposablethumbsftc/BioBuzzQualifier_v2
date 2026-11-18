@@ -49,13 +49,13 @@ public class Transfer extends Subsystem {
     public void takeout() {
 
         Transfer.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        Transfer.setPower(-.6);
+        Transfer.setPower(-1);
     }
 
     public void takein() {
 
             Transfer.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            Transfer.setPower(.6);
+            Transfer.setPower(1);
         }
 
 

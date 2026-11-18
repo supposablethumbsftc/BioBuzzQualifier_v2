@@ -120,8 +120,8 @@ public class Teleop extends OpMode {
         handleBlinkinColors();
         handleButtons();
         handleShooter();
-     //   handleHood();
-        handleShooterStateMachine();
+        handleFunnel();
+       // handleShooterStateMachine();
         voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
     }
 
@@ -195,7 +195,7 @@ public class Teleop extends OpMode {
                         distance = 6.8*Math.pow(fr.getTargetArea(),-0.5);
                         telemetry.addData("Calculated distance","Distance %.4f", distance);
                         telemetry.addData("turret offset","turrent offset %.2f",turretoffset);
-                        if (gamepad2.dpad_right && AprilTagID == 24) {  //red right goal
+                        if (gamepad2.dpad_right && (AprilTagID == 31 || AprilTagID == 32 || AprilTagID == 35 || AprilTagID == 36)) {  //red right goal
 //                            if (gamepad2.dpad_up) {
 //                                shootervelocity = 0.24 * (1+ 0.04*(13.00- voltage)) * (1 + 0.0025 * (distance - 42));
 //                                telemetry.addData("Shooter", "Velocity %.4f", shootervelocity);
@@ -225,7 +225,7 @@ public class Teleop extends OpMode {
                                 robot.blinkins.red();
                                 // hold position
                             }
-                        } else if (gamepad2.dpad_left && AprilTagID == 20) { //blue left goal
+                        } else if (gamepad2.dpad_left && (AprilTagID == 44 || AprilTagID == 43 || AprilTagID == 40 || AprilTagID == 39)) { //blue left goal
 //                            if (gamepad2.dpad_up) {
 //                                shootervelocity = 0.24 * (1 + 0.02 * (13.5 - voltage)) * (1 + 0.0025 * (distance - 42));
 //                                telemetry.addData("Shooter", "Velocity %.4f", shootervelocity);
@@ -288,16 +288,16 @@ public class Teleop extends OpMode {
 
 
 
- /*   private void handleHood() {
-        if (gamepad1.right_trigger>.05) {
-            robot.hood.on();//hood down
-        } else if (gamepad1.left_trigger>.05) {
-            robot.hood.off();//hood up
-            } else if (gamepad2.a && gamepad2.b) {
-            robot.hood.expel();
+    private void handleFunnel() {
+        if      (gamepad2.a) {
+            robot.funnel.on();//funnel down
+        } else if (gamepad2.b) {
+            robot.funnel.half();//funnel up
+        }else if (gamepad2.y){
+            robot.funnel.off();
         }
         }
-*/
+
     private void handleButtons() {
 //---------------------- ABXY commands-----
         if (!gamepad2.x && !gamepad2.y){ //check if state machine buttons are pressed instead

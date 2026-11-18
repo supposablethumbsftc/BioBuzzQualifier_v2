@@ -74,39 +74,39 @@ public class Thumbz extends Subsystem {
 
     @Override
     public void teleopServoInit() {
-        thumbzServo1.setPosition(.65);
-        thumbzServo2.setPosition(.35);
+        thumbzServo1.setPosition(1);
+        thumbzServo2.setPosition(0);
     }
 
     @Override
     public void autonomousServoInit() {
-        thumbzServo1.setPosition(.65);
-        thumbzServo2.setPosition(.35);
+        thumbzServo1.setPosition(1);
+        thumbzServo2.setPosition(0);
     }
 
 
     public void open(){
-        thumbzServo1.setPosition(.35);//left servo
-        thumbzServo2.setPosition(.7);//right servo
+        thumbzServo1.setPosition(.4);//left servo
+        thumbzServo2.setPosition(.35);//right servo
     }
     public void block(){
-        thumbzServo1.setPosition(.65);
-        thumbzServo2.setPosition(.35);
+        thumbzServo1.setPosition(.6);
+        thumbzServo2.setPosition(0);
     }
     public void halfopen(){
-        thumbzServo1.setPosition(.3);
-        thumbzServo2.setPosition(.7);
+        thumbzServo1.setPosition(.8);
+        thumbzServo2.setPosition(.1);
     }
 
 
     public Action thumbzAction(Thumbz.Pos thumbzPos){
-            return new Action() {
-                @Override
-                public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                    thumbzServo1.setPosition(thumbzPos.pos);
-                    thumbzServo2.setPosition(Math.abs(1-thumbzPos.pos));
-                    return false;
-                }
-            };
-        }
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                thumbzServo1.setPosition(thumbzPos.pos);
+                thumbzServo2.setPosition(Math.abs(1-thumbzPos.pos));
+                return false;
+            }
+        };
+    }
 }
