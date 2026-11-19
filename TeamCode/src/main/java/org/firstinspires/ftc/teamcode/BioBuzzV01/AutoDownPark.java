@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.BioBuzzV01;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
@@ -15,7 +16,10 @@ import org.firstinspires.ftc.teamcode.BioBuzzV01.AbstractClasses.MatchInformatio
 import org.firstinspires.ftc.teamcode.BioBuzzV01.Subsystems.CSRobotV01;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Autonomous (name="Down Park",group="test")
 public class AutoDownPark extends LinearOpMode {
@@ -75,56 +79,79 @@ public class AutoDownPark extends LinearOpMode {
 //        Turn on intake
         robot.turret.setturretpos(.85);
         //   delay 7 or April 7
+        Set<Integer> targetTags = new HashSet<>(Arrays.asList(40, 41, 32, 33));
         timer.reset();
         tagfound = false;
-        while (!tagfound && timer.milliseconds() < 7000) {
-            //        Read april tag
+        while (!tagfound && timer.milliseconds() < 7000 && opModeIsActive()) {
             LLResult result = limelight.getLatestResult();
-            if (result != null) {
-                if (result.isValid()) {
-                    // Access fiducial results
-                    List<LLResultTypes.FiducialResult> fiducialResults = result.getFiducialResults();
-                    for (LLResultTypes.FiducialResult fr : fiducialResults) {
-                        AprilTagID = fr.getFiducialId();
-                        telemetry.addData("Fiducial", "ID: %d", AprilTagID);
-                        if (AprilTagID == 44) {
-                            tagfound = true;
-                            robot.turret.setturretpos(.99);
-                        } else if (AprilTagID == 32) {
-                            tagfound = true;
-                            robot.turret.setturretpos(.99);
-                        }
 
-                        telemetry.update();
+            if (result != null && result.isValid()) {
+                List<LLResultTypes.FiducialResult> fiducials = result.getFiducialResults();
 
+                for (LLResultTypes.FiducialResult fr : fiducials) {
+                    int tagId = fr.getFiducialId();
+
+                    if (targetTags.contains(tagId)) {
+                        tagfound = true;
+                        int foundTagID = tagId;
+                        telemetry.addData("Matched Tag", tagId);
+                        break; // Stop checking fiducials once a target tag is matched
                     }
-                } else {
-                    telemetry.addData("Limelight", "No data available");
                 }
-
-                telemetry.update();
             }
         }
+        telemetry.update();
+//        timer.reset();
+//        tagfound = false;
+//        while (!tagfound && timer.milliseconds() < 7000) {
+//            //        Read april tag
+//            LLResult result = limelight.getLatestResult();
+//            if (result != null) {
+//                if (result.isValid()) {
+//                    // Access fiducial results
+//                    List<LLResultTypes.FiducialResult> fiducialResults = result.getFiducialResults();
+//                    for (LLResultTypes.FiducialResult fr : fiducialResults) {
+//                        AprilTagID = fr.getFiducialId();
+//                        telemetry.addData("Fiducial", "ID: %d", AprilTagID);
+//                        if (AprilTagID == 44) {
+//                            tagfound = true;
+//                            robot.turret.setturretpos(.99);
+//                        } else if (AprilTagID == 40) {
+//                            tagfound = true;
+//                            robot.turret.setturretpos(.99);
+//                        }
+//
+//                        telemetry.update();
+//
+//                    }
+//                } else {
+//                    telemetry.addData("Limelight", "No data available");
+//                }
+//
+//                telemetry.update();
+//            }
+//        }
         if (tagfound){
         robot.pause(1000);
         //        shoot
-
+//Turn on intake
         robot.intake.takein();
         robot.transfer.takein();
         robot.thumbz.open();
 
         robot.pause(1000);
+            // close Blockers
         robot.thumbz.block();
         robot.shooter.stop();
+        //  robot.turret.setturretpos(.5);
 
-        //Turn on intake
         //                flower x=8, y=6, -90
 
-
+        robot.funnel.on();
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                         // .splineToLinearHeading(new Pose2d(0,-4,Math.toRadians(0)), Math.toRadians(90))
-                        .splineToLinearHeading(new Pose2d(17, 6, Math.toRadians(-90)), Math.toRadians(270))
+                        .splineToLinearHeading(new Pose2d(17, 6, Math.toRadians(-90)), Math.toRadians(60))
                         .build());
         robot.pause(4000);
 
@@ -133,9 +160,10 @@ public class AutoDownPark extends LinearOpMode {
 //                far shot
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                        .splineToLinearHeading(new Pose2d(0, 0, Math.toRadians(0)), Math.toRadians(270))
+                        .splineToLinearHeading(new Pose2d(0, 0, Math.toRadians(0)), Math.toRadians(180))
                         .build());
         robot.shooter.nearV(voltage);
+
 
         robot.turret.setturretpos(.99);
         robot.pause(1000);
@@ -144,14 +172,15 @@ public class AutoDownPark extends LinearOpMode {
         robot.thumbz.block();
         robot.shooter.stop();
     }
+        robot.funnel.off();
 
          //        park/collect nectar
         robot.intake.takein();
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                        .splineToLinearHeading(new Pose2d(4,14,Math.toRadians(0)), Math.toRadians(0))
-                        .splineToLinearHeading(new Pose2d(42,20,Math.toRadians(0)), Math.toRadians(0))
-                        .splineToLinearHeading(new Pose2d(50,16,Math.toRadians(0)), Math.toRadians(90))
+                        .splineToLinearHeading(new Pose2d(4,14,Math.toRadians(0)), Math.toRadians(30))
+                        .splineToLinearHeading(new Pose2d(42,20,Math.toRadians(0)), Math.toRadians(80))
+                        .splineToLinearHeading(new Pose2d(50,16,Math.toRadians(0)), Math.toRadians(-15))
                         .build());
 
     }

@@ -70,7 +70,7 @@ public class AutoSoloUp extends LinearOpMode {
 
         robot.pause(1000);
         robot.thumbz.block();
-        robot.shooter.stop();
+       // robot.shooter.stop();
         robot.turret.setturretpos(.5);
         // close Blockers
 
@@ -81,19 +81,20 @@ public class AutoSoloUp extends LinearOpMode {
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                        // .splineToLinearHeading(new Pose2d(0,-4,Math.toRadians(0)), Math.toRadians(90))
-                        .splineToLinearHeading(new Pose2d(47.5,1.5,Math.toRadians(0)), Math.toRadians(0))
+                        .splineToLinearHeading(new Pose2d(46.5,2,Math.toRadians(0)), Math.toRadians(0))
                         .build());
 //                far shot
+        robot.turret.setturretpos(.99);
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                        .splineToLinearHeading(new Pose2d(28,-48,Math.toRadians(0)), Math.toRadians(-60))
-                     //   .splineToLinearHeading(new Pose2d(24,-98,Math.toRadians(-90)), Math.toRadians(0))
-                        .splineToLinearHeading(new Pose2d(8,-118,Math.toRadians(0)), Math.toRadians(0))
+                        .splineToLinearHeading(new Pose2d(30,-48,Math.toRadians(0)), Math.toRadians(-110))
+                      .splineToLinearHeading(new Pose2d(24,-98,Math.toRadians(0)), Math.toRadians(-90))
+                        .splineToLinearHeading(new Pose2d(8,-118,Math.toRadians(15)), Math.toRadians(-180))
                         .build());
         robot.shooter.nearV(voltage);
 
-        robot.turret.setturretpos(.99);
-        robot.pause(1000);
+       // robot.turret.setturretpos(.99);
+       // robot.pause(1000);
         robot.thumbz.open();
         robot.pause(2000);
         robot.thumbz.block();
@@ -102,13 +103,13 @@ public class AutoSoloUp extends LinearOpMode {
         robot.funnel.on();
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                        .splineToLinearHeading(new Pose2d(8,-114,Math.toRadians(-90)), Math.toRadians(-90))
-                        .splineToLinearHeading(new Pose2d(8,-118,Math.toRadians(-90)), Math.toRadians(-90))
+                        .splineToLinearHeading(new Pose2d(12,-112,Math.toRadians(-90)), Math.toRadians(-10))
+                        .splineToLinearHeading(new Pose2d(8,-120,Math.toRadians(-90)), Math.toRadians(-90))
                         .build());
         robot.pause(4000);
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                        .splineToLinearHeading(new Pose2d(8,-118,Math.toRadians(0)), Math.toRadians(0))
+                        .splineToLinearHeading(new Pose2d(8,-118,Math.toRadians(15)), Math.toRadians(110))
                         .build());
 
 //                Shoot

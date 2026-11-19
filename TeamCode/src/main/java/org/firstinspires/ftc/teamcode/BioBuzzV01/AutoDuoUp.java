@@ -85,19 +85,20 @@ public class AutoDuoUp extends LinearOpMode {
        // robot.shooter.stop();
         robot.turret.setturretpos(.5);
         // close Blockers
+
 //               Collect in corner
         //Turn on intake
 
         //Drive in Corner 48 to left back 1 1/2
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                        // .splineToLinearHeading(new Pose2d(0,-4,Math.toRadians(0)), Math.toRadians(90))
-                        .splineToLinearHeading(new Pose2d(47.5, 1.5, Math.toRadians(0)), Math.toRadians(0))
+                       // .splineToLinearHeading(new Pose2d(0,-4,Math.toRadians(0)), Math.toRadians(90))
+                        .splineToLinearHeading(new Pose2d(46.5,2,Math.toRadians(0)), Math.toRadians(0))
                         .build());
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                         // .splineToLinearHeading(new Pose2d(0,-4,Math.toRadians(0)), Math.toRadians(90))
-                        .splineToLinearHeading(new Pose2d(0, 0, Math.toRadians(0)), Math.toRadians(0))
+                        .splineToLinearHeading(new Pose2d(0, 0, Math.toRadians(0)), Math.toRadians(-180))
                         .build());
         //   delay 7 or April 7
         robot.turret.setturretpos(.1);
@@ -127,6 +128,7 @@ public class AutoDuoUp extends LinearOpMode {
 
 
             if (tagfound) {
+                robot.turret.setturretpos(0.01);
                 robot.pause(1000);
                 //        shoot
 
@@ -143,8 +145,8 @@ public class AutoDuoUp extends LinearOpMode {
             Actions.runBlocking(
                     boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                             .splineToLinearHeading(new Pose2d(28, -48, Math.toRadians(0)), Math.toRadians(-60))
-                            .splineToLinearHeading(new Pose2d(24, -94, Math.toRadians(0)), Math.toRadians(0))
-                            .splineToLinearHeading(new Pose2d(37, -90, Math.toRadians(0)), Math.toRadians(0))
+                            .splineToLinearHeading(new Pose2d(24, -94, Math.toRadians(0)), Math.toRadians(-90))
+                            .splineToLinearHeading(new Pose2d(40, -90, Math.toRadians(0)), Math.toRadians(0))
                             .build());
 
 

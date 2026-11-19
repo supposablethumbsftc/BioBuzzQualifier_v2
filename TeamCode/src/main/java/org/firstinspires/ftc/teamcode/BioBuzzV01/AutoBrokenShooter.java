@@ -64,7 +64,7 @@ public class AutoBrokenShooter extends LinearOpMode {
 //        drive forward 4 in and right 8 inches
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                        .splineToLinearHeading(new Pose2d(4,-8,Math.toRadians(0)), Math.toRadians(0))
+                        .splineToLinearHeading(new Pose2d(4,-8,Math.toRadians(0)), Math.toRadians(150))
                         .build());
 
     }
