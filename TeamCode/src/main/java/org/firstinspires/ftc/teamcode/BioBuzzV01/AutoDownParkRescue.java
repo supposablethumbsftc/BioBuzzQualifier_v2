@@ -134,16 +134,21 @@ public class AutoDownParkRescue extends LinearOpMode {
 //        }
         if (tagfound){
         robot.turret.setturretpos(.99);
+            robot.intake.takein();
+            robot.transfer.takein();
         robot.pause(1000);
         //        shoot
 //Turn on intake
-        robot.intake.takein();
-        robot.transfer.takein();
+
         robot.thumbz.open();
 
         robot.pause(1000);
             // close Blockers
         robot.thumbz.block();
+            robot.pause(500);
+            robot.thumbz.open();
+            robot.pause(500);
+            robot.thumbz.block();
         robot.shooter.stop();
         //  robot.turret.setturretpos(.5);
 
@@ -173,10 +178,13 @@ public class AutoDownParkRescue extends LinearOpMode {
         robot.thumbz.open();
         robot.pause(2000);
         robot.thumbz.block();
+            robot.pause(500);
+            robot.thumbz.open();
+            robot.pause(500);
+            robot.thumbz.block();
         robot.shooter.stop();
         //park and collect nectar
-            robot.intake.takein();
-            robot.transfer.takein();
+
             robot.turret.setturretpos(.4);
             Actions.runBlocking(
                     boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
@@ -199,6 +207,8 @@ public class AutoDownParkRescue extends LinearOpMode {
                             .build());
             voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
             robot.shooter.nearV(voltage);
+            robot.intake.takein();
+            robot.transfer.takein();
             robot.turret.setturretpos(.375);
             //robot.hood.on();//hood down
             Actions.runBlocking(
@@ -209,17 +219,19 @@ public class AutoDownParkRescue extends LinearOpMode {
 
             //        shoot
 
-            robot.intake.takein();
-            robot.transfer.takein();
+
             robot.thumbz.open();
 
             robot.pause(1000);
             robot.thumbz.block();
+            robot.pause(500);
+            robot.thumbz.open();
+            robot.pause(500);
+            robot.thumbz.block();
             robot.shooter.stop();
 
 
-            robot.intake.takein();
-            robot.transfer.takein();
+
             Actions.runBlocking(
                     boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                             // .splineToLinearHeading(new Pose2d(4,14,Math.toRadians(0)), Math.toRadians(0))

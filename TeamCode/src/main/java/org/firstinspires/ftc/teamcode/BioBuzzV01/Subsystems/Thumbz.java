@@ -23,7 +23,7 @@ public class Thumbz extends Subsystem {
     public static final int thumbz_open_time3_ms = 150;
     public static final double thumbz_open_time3_sec = .150;
 
-    public static final int ball_fire_time_ms = 550;
+    public static final int ball_fire_time_ms = 1100;
     public static final double ball_fire_time_sec = 1.100;
 
     public static final int thumbz_near_block_time_ms = 300;

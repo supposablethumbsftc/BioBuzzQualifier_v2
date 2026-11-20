@@ -132,16 +132,21 @@ public class AutoDownPark extends LinearOpMode {
 //            }
 //        }
         if (tagfound){
+            robot.intake.takein();
+            robot.transfer.takein();
         robot.pause(1000);
         //        shoot
 //Turn on intake
-        robot.intake.takein();
-        robot.transfer.takein();
+
         robot.thumbz.open();
 
         robot.pause(1000);
             // close Blockers
         robot.thumbz.block();
+            robot.pause(500);
+            robot.thumbz.open();
+            robot.pause(500);
+            robot.thumbz.block();
         robot.shooter.stop();
         //  robot.turret.setturretpos(.5);
 
@@ -170,12 +175,16 @@ public class AutoDownPark extends LinearOpMode {
         robot.thumbz.open();
         robot.pause(2000);
         robot.thumbz.block();
+            robot.pause(500);
+            robot.thumbz.open();
+            robot.pause(500);
+            robot.thumbz.block();
         robot.shooter.stop();
     }
         robot.funnel.off();
 
          //        park/collect nectar
-        robot.intake.takein();
+
         Actions.runBlocking(
                 boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                         .splineToLinearHeading(new Pose2d(4,14,Math.toRadians(0)), Math.toRadians(30))

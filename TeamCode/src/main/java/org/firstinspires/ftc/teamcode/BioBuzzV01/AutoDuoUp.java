@@ -75,13 +75,19 @@ public class AutoDuoUp extends LinearOpMode {
         robot.hood.on();//hood down
 //        Turn on intake
         robot.turret.setturretpos(.01);
-        robot.pause(4000);
         robot.intake.takein();
         robot.transfer.takein();
+        robot.pause(4000);
+
         robot.thumbz.open();
 
         robot.pause(1000);
         robot.thumbz.block();
+        robot.pause(500);
+        robot.thumbz.open();
+        robot.pause(500);
+        robot.thumbz.block();
+
        // robot.shooter.stop();
         robot.turret.setturretpos(.5);
         // close Blockers
@@ -132,11 +138,14 @@ public class AutoDuoUp extends LinearOpMode {
                 robot.pause(1000);
                 //        shoot
 
-                robot.intake.takein();
-                robot.transfer.takein();
+
                 robot.thumbz.open();
 
                 robot.pause(2000);
+                robot.thumbz.block();
+                robot.pause(500);
+                robot.thumbz.open();
+                robot.pause(500);
                 robot.thumbz.block();
                // robot.shooter.stop();
             }
