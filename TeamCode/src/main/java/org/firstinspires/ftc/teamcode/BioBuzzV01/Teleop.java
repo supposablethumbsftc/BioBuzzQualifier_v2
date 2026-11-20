@@ -121,7 +121,7 @@ public class Teleop extends OpMode {
         handleButtons();
         handleShooter();
         handleFunnel();
-       // handleShooterStateMachine();
+        handleShooterStateMachine();
         voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
     }
 
@@ -293,8 +293,9 @@ public class Teleop extends OpMode {
             robot.funnel.on();//funnel down
         } else if (gamepad2.b) {
             robot.funnel.half();//funnel up
-        }else if (gamepad2.y){
+        }else if (gamepad2.y) {
             robot.funnel.off();
+
         }
         }
 
@@ -429,7 +430,7 @@ public class Teleop extends OpMode {
         if (gamepad2.x || gamepad2.y) {
             switch (shooterState) {
                 case SSM_START:
-                    robot.thumbz.halfopen();
+                    robot.thumbz.open();
                     SM_Timer.reset();
                     shooterState = ShooterState.SSM_OPEN1;
                     break;
@@ -442,12 +443,12 @@ public class Teleop extends OpMode {
                     break;
                 case SSM_BLOCK1:
                     if (gamepad2.x && SM_Timer.milliseconds() >= robot.thumbz.thumbz_near_block_time1_ms) {
-                        robot.thumbz.halfopen();
+                        robot.thumbz.open();
                         SM_Timer.reset();
                         shooterState = ShooterState.SSM_OPEN2;
                     }
                     else if (gamepad2.y && SM_Timer.milliseconds() >= robot.thumbz.thumbz_far_block_time1_ms) {
-                        robot.thumbz.halfopen();
+                        robot.thumbz.open();
                         SM_Timer.reset();
                         shooterState = ShooterState.SSM_OPEN2;
                     }
@@ -461,12 +462,12 @@ public class Teleop extends OpMode {
                     break;
                 case SSM_BLOCK2:
                     if (gamepad2.x && SM_Timer.milliseconds() >= robot.thumbz.thumbz_near_block_time2_ms) {
-                        robot.thumbz.halfopen();
+                        robot.thumbz.open();
                         SM_Timer.reset();
                         shooterState = ShooterState.SSM_OPEN3;
                     }
                     else if (gamepad2.y && SM_Timer.milliseconds() >= robot.thumbz.thumbz_far_block_time2_ms) {
-                        robot.thumbz.halfopen();
+                        robot.thumbz.open();
                         SM_Timer.reset();
                         shooterState = ShooterState.SSM_OPEN3;
                     }
@@ -480,12 +481,12 @@ public class Teleop extends OpMode {
                     break;
                 case SSM_BLOCK3:
                     if (gamepad2.x && SM_Timer.milliseconds() >= robot.thumbz.thumbz_near_block_time3_ms) {
-                        robot.thumbz.halfopen();
+                        robot.thumbz.open();
                         SM_Timer.reset();
                         shooterState = ShooterState.SSM_START;
                     }
                     else if (gamepad2.y && SM_Timer.milliseconds() >= robot.thumbz.thumbz_far_block_time3_ms) {
-                        robot.thumbz.halfopen();
+                        robot.thumbz.open();
                         SM_Timer.reset();
                         shooterState = ShooterState.SSM_START;
                     }

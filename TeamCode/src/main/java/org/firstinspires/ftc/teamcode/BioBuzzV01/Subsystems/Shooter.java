@@ -28,7 +28,9 @@ public double TicksPerRev;
     public void motorInit() {
         Shooter.setDirection(DcMotorEx.Direction.REVERSE);
         Shooter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        Shooter.setVelocityPIDFCoefficients(1.7,0,23,2.72);//1.6,0,30,2.65); //1,0,10,1.8);
+//        Shooter.setVelocityPIDFCoefficients(0,0,0,3);//1.6,0,30,2.65); //1,0,10,1.8);
+//        Shooter.setVelocityPIDFCoefficients(1.7,0,23,2.72);//1.6,0,30,2.65); //1,0,10,1.8);
+                Shooter.setVelocityPIDFCoefficients(4.7,0,23,2.8);//1.6,0,30,2.65); //1,0,10,1.8);
 //        Shooter.setTargetPosition(0);
 //        Shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Shooter.setPower(0);

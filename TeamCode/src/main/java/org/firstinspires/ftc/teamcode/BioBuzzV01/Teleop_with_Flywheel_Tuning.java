@@ -5,13 +5,17 @@ import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 import org.firstinspires.ftc.teamcode.BioBuzzV01.AbstractClasses.MatchInformation;
 import org.firstinspires.ftc.teamcode.BioBuzzV01.Subsystems.CSRobotV01;
+import org.firstinspires.ftc.teamcode.BioBuzzV01.Subsystems.Shooter;
+import org.firstinspires.ftc.teamcode.BioBuzzV01.Subsystems.Thumbz;
 
 import java.util.List;
 
@@ -42,13 +46,27 @@ public class Teleop_with_Flywheel_Tuning extends OpMode {
     boolean shooter_is_on_high = false;
 
     boolean intake_is_on = false;
-
+    boolean transfer_is_on = false;
+    double turretoffset = 0;
     double shootervelocity = 0;
+    double distance = 0;
     int AprilTagID = 0;
     double AprilTagTx = 0;
     Limelight3A limelight;
 
     ElapsedTime SM_Timer = new ElapsedTime();
+    public enum ShooterState {
+        SSM_START,
+        SSM_OPEN1,
+        SSM_OPEN2,
+        SSM_OPEN3,
+        SSM_BLOCK1,
+        SSM_BLOCK2,
+        SSM_BLOCK3
+
+
+    };
+    ShooterState shooterState = ShooterState.SSM_START;
 
     private LynxModule controlHub;
     public double voltage = 0;
@@ -101,13 +119,15 @@ public class Teleop_with_Flywheel_Tuning extends OpMode {
 //        handleResetMotors();
         handleDrivetrain();
 //        handleTurret();
-      //  handleLift();
+       // handleLift();
+        handleTransfer();
         handleIntake();
         handleTelemetry();
         handleBlinkinColors();
         handleButtons();
         handleShooter();
-        handleHood();
+        handleFunnel();
+        handleShooterStateMachine();
         handleFlyWheelTuningButtons();
         voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
     }
@@ -141,13 +161,13 @@ public class Teleop_with_Flywheel_Tuning extends OpMode {
         }
 
         //set new PIDcoefficients
-        robot.shooter.setVelocityPID(P,0,0,F);
+        robot.shooter.setVelocityPID(P,0,D,F);
 
-        telemetry.addData("Tuning P","%.4f (Dpad-U/D)",P);
-        telemetry.addData("Tuning D","%.4f (-X/Y button)",D);
-        telemetry.addData("Tuning F","%.4f (Dpad-L/R)",F);
-        telemetry.addData("Step Size","%.4f (B Button)",StepSizes[stepIndex]);
-        telemetry.addLine( "------------------------------");
+//        telemetry.addData("Tuning P","%.4f (Dpad-U/D)",P);
+//        telemetry.addData("Tuning D","%.4f (-X/Y button)",D);
+//        telemetry.addData("Tuning F","%.4f (Dpad-L/R)",F);
+//        telemetry.addData("Step Size","%.4f (B Button)",StepSizes[stepIndex]);
+//        telemetry.addLine( "------------------------------");
     }
     private void handleBlinkinColors() {
 //        if (robot.intake.getSampleGreen()>900)
@@ -214,17 +234,32 @@ public class Teleop_with_Flywheel_Tuning extends OpMode {
                     for (LLResultTypes.FiducialResult fr : fiducialResults) {
                         AprilTagID = fr.getFiducialId();
                         AprilTagTx = fr.getTargetXDegrees();
-                        telemetry.addData("Fiducial", "ID: %d, Family: %s, X: %.2f, Y: %.2f, Area %.2f", fr.getFiducialId(), fr.getFamily(), fr.getTargetXDegrees(), fr.getTargetYDegrees(), fr.getTargetArea());
-                        if (gamepad2.dpad_right && AprilTagID == 24) {  //red right goal
+                        telemetry.addData("Fiducial", "ID: %d, Family: %s, X: %.2f, Y: %.2f, Area %.4f", fr.getFiducialId(), fr.getFamily(), fr.getTargetXDegrees(), fr.getTargetYDegrees(), fr.getTargetArea());
+                        distance = 6.8*Math.pow(fr.getTargetArea(),-0.5);
+                        telemetry.addData("Calculated distance","Distance %.4f", distance);
+                        telemetry.addData("turret offset","turrent offset %.2f",turretoffset);
+                        if (gamepad2.dpad_right && (AprilTagID == 31 || AprilTagID == 32 || AprilTagID == 35 || AprilTagID == 36)) {  //red right goal
+//                            if (gamepad2.dpad_up) {
+//                                shootervelocity = 0.24 * (1+ 0.04*(13.00- voltage)) * (1 + 0.0025 * (distance - 42));
+//                                telemetry.addData("Shooter", "Velocity %.4f", shootervelocity);
+//                                robot.shooter.setVelocity(shootervelocity);
+//                            }
+                            if (gamepad2.right_bumper) {
+                                turretoffset = -3;
+                            } else if (gamepad2.left_bumper) {
+                                turretoffset = 3;
+                            } else {
+                                turretoffset = 0;
+                            }
                             telemetry.addData("Limelight", "Red tag detected");
-                            if (AprilTagTx > 0.5) {
-                                turretPos = turretPos - Math.abs(AprilTagTx*0.00025);
+                            if (AprilTagTx > turretoffset + .5) {
+                                turretPos = turretPos - Math.abs((AprilTagTx-turretoffset)*0.00025);
                                     if (turretPos < .01) {
                                         turretPos=0.01;
                                     }
                                 robot.turret.setturretpos(turretPos); // turn turret Right
-                            } else if (AprilTagTx < -0.5) {
-                                turretPos = turretPos +  Math.abs(AprilTagTx*0.00025);
+                            } else if (AprilTagTx < turretoffset -0.5) {
+                                turretPos = turretPos +  Math.abs((AprilTagTx-turretoffset)*0.00025);
                                 if (turretPos > .99) {
                                     turretPos=0.99;
                                 }
@@ -233,16 +268,28 @@ public class Teleop_with_Flywheel_Tuning extends OpMode {
                                 robot.blinkins.red();
                                 // hold position
                             }
-                        } else if (gamepad2.dpad_left && AprilTagID == 20) { //blue left goal
+                        } else if (gamepad2.dpad_left && (AprilTagID == 44 || AprilTagID == 43 || AprilTagID == 40 || AprilTagID == 39)) { //blue left goal
+//                            if (gamepad2.dpad_up) {
+//                                shootervelocity = 0.24 * (1 + 0.02 * (13.5 - voltage)) * (1 + 0.0025 * (distance - 42));
+//                                telemetry.addData("Shooter", "Velocity %.4f", shootervelocity);
+//                                robot.shooter.setVelocity(shootervelocity);
+//                            }
+                            if (gamepad2.right_bumper) {
+                                turretoffset = 3;
+                            } else if (gamepad2.left_bumper) {
+                                turretoffset = -3;
+                            } else {
+                                turretoffset = 0;
+                            }
                             telemetry.addData("Limelight", "Blue tag detected");
-                            if (AprilTagTx > 0.5) {
-                                turretPos = turretPos -  Math.abs(AprilTagTx*0.00025);
+                            if (AprilTagTx > turretoffset + .5) {
+                                turretPos = turretPos -  Math.abs((AprilTagTx-turretoffset)*0.00025);
                                 if (turretPos < .01) {
                                     turretPos=0.01;
                                 }
                                 robot.turret.setturretpos(turretPos); // turn turret Right
-                            } else if (AprilTagTx < -0.5) {
-                                turretPos = turretPos +  Math.abs(AprilTagTx*0.00025);
+                            } else if (AprilTagTx < turretoffset-0.5) {
+                                turretPos = turretPos +  Math.abs((AprilTagTx-turretoffset)*0.00025);
                                 if (turretPos > .99) {
                                     turretPos=0.99;
                                 }
@@ -284,12 +331,15 @@ public class Teleop_with_Flywheel_Tuning extends OpMode {
 
 
 
-    private void handleHood() {
-        if (gamepad1.right_trigger>.05) {
-            robot.hood.on();//hood down
-        } else if (gamepad1.left_trigger>.05) {
-            robot.hood.off();//hood up
-            }
+    private void handleFunnel() {
+        if      (gamepad2.a) {
+            robot.funnel.on();//funnel down
+        } else if (gamepad2.b) {
+            robot.funnel.half();//funnel up
+        }else if (gamepad2.y) {
+            robot.funnel.off();
+
+        }
         }
 
     private void handleButtons() {
@@ -318,7 +368,7 @@ public class Teleop_with_Flywheel_Tuning extends OpMode {
     }
 
     private void handleShooter() {
-        if ((gamepad1.right_stick_button||gamepad1.left_stick_button) && shooter_is_on) {
+        if ((gamepad1.y) && shooter_is_on) {
             shootervelocity = 0;
             robot.shooter.setVelocity(shootervelocity);
             shooter_is_on = false;
@@ -337,12 +387,14 @@ public class Teleop_with_Flywheel_Tuning extends OpMode {
             shooter_is_on_low = false;
             shooter_is_on_high = false;
         } else if (gamepad1.dpad_down||shooter_is_on_low) {
-            shootervelocity = 0.5*(13.25/voltage);
+            shootervelocity = 0.56 * (1+ 0.04*(13.00
+ - voltage));
             robot.shooter.setVelocity(shootervelocity);
             shooter_is_on = true;
             shooter_is_on_low = true;
         } else if (gamepad1.dpad_up||shooter_is_on_high) {
-            shootervelocity = 1.00*(13.25/voltage);
+            shootervelocity = 0.7* (1+ 0.04*(13.00
+ - voltage));
             robot.shooter.setVelocity(shootervelocity);
             shooter_is_on = true;
             shooter_is_on_high = true;
@@ -353,19 +405,25 @@ public class Teleop_with_Flywheel_Tuning extends OpMode {
          //   robot.lift.moveLift(1);//ascention of robot
            // robot.liftlock.uplock();
         } else if (gamepad1.left_trigger>.05 && gamepad2.left_trigger>.05) {
-            //robot.lift.moveLift(-1);//descention of robot
-          //  robot.liftlock.downlock();
+         //   robot.lift.moveLift(-1);//descention of robot
+           // robot.liftlock.downlock();
         }else{
-//            robot.lift.moveLift(0);
+          //  robot.lift.moveLift(0);
         }
 
     }
 
 
     private void handleTelemetry() {
+      //  telemetry.addData("Lift Position",robot.lift.currentLiftPosition );
           telemetry.addData("shooter velocity",shootervelocity );
           telemetry.addData("Control Hub Voltage", "%.2f V", voltage);
           telemetry.addData("turretPos",turretPos );
+        telemetry.addData("Tuning P","%.4f (Dpad-U/D)",P);
+        telemetry.addData("Tuning D","%.4f (-X/Y button)",D);
+        telemetry.addData("Tuning F","%.4f (Dpad-L/R)",F);
+        telemetry.addData("Step Size","%.4f (B Button)",StepSizes[stepIndex]);
+//        telemetry.addLine( "------------------------------");
           telemetry.update();
     }
 
@@ -381,6 +439,21 @@ public class Teleop_with_Flywheel_Tuning extends OpMode {
         } else if (gamepad1.right_bumper) {
             robot.intake.takein();
             intake_is_on = true;
+        }
+
+    }
+    private void handleTransfer() {
+        //    double currentLeftLiftPosition = robot.lift.currentLeftLiftPosition;
+//if ((gamepad1.left_bumper && gamepad1.right_bumper) && intake_is_on) {
+        if (gamepad1.left_bumper && gamepad1.right_bumper) {
+            robot.transfer.stop();
+            intake_is_on = false;
+        } else if (gamepad1.left_bumper) {
+            robot.transfer.takeout();
+            intake_is_on = true;
+        } else if (gamepad1.right_bumper) {
+            robot.transfer.takein();
+            transfer_is_on = true;
         }
 
     }
@@ -401,7 +474,78 @@ public class Teleop_with_Flywheel_Tuning extends OpMode {
     }
 
 
-
+    private void handleShooterStateMachine() {
+        if (gamepad2.x || gamepad2.y) {
+            switch (shooterState) {
+                case SSM_START:
+                    robot.thumbz.open();
+                    SM_Timer.reset();
+                    shooterState = ShooterState.SSM_OPEN1;
+                    break;
+                case SSM_OPEN1:
+                    if (SM_Timer.milliseconds() >= robot.thumbz.thumbz_open_time1_ms) {
+                        robot.thumbz.block();
+                        SM_Timer.reset();
+                        shooterState = ShooterState.SSM_BLOCK1;
+                    }
+                    break;
+                case SSM_BLOCK1:
+                    if (gamepad2.x && SM_Timer.milliseconds() >= robot.thumbz.thumbz_near_block_time1_ms) {
+                        robot.thumbz.open();
+                        SM_Timer.reset();
+                        shooterState = ShooterState.SSM_OPEN2;
+                    }
+                    else if (gamepad2.y && SM_Timer.milliseconds() >= robot.thumbz.thumbz_far_block_time1_ms) {
+                        robot.thumbz.open();
+                        SM_Timer.reset();
+                        shooterState = ShooterState.SSM_OPEN2;
+                    }
+                    break;
+                case SSM_OPEN2:
+                    if (SM_Timer.milliseconds() >= robot.thumbz.thumbz_open_time2_ms) {
+                        robot.thumbz.block();
+                        SM_Timer.reset();
+                        shooterState = ShooterState.SSM_BLOCK2;
+                    }
+                    break;
+                case SSM_BLOCK2:
+                    if (gamepad2.x && SM_Timer.milliseconds() >= robot.thumbz.thumbz_near_block_time2_ms) {
+                        robot.thumbz.open();
+                        SM_Timer.reset();
+                        shooterState = ShooterState.SSM_OPEN3;
+                    }
+                    else if (gamepad2.y && SM_Timer.milliseconds() >= robot.thumbz.thumbz_far_block_time2_ms) {
+                        robot.thumbz.open();
+                        SM_Timer.reset();
+                        shooterState = ShooterState.SSM_OPEN3;
+                    }
+                    break;
+                case SSM_OPEN3:
+                    if (SM_Timer.milliseconds() >= robot.thumbz.thumbz_open_time3_ms) {
+                        robot.thumbz.block();
+                        SM_Timer.reset();
+                        shooterState = ShooterState.SSM_BLOCK3;
+                    }
+                    break;
+                case SSM_BLOCK3:
+                    if (gamepad2.x && SM_Timer.milliseconds() >= robot.thumbz.thumbz_near_block_time3_ms) {
+                        robot.thumbz.open();
+                        SM_Timer.reset();
+                        shooterState = ShooterState.SSM_START;
+                    }
+                    else if (gamepad2.y && SM_Timer.milliseconds() >= robot.thumbz.thumbz_far_block_time3_ms) {
+                        robot.thumbz.open();
+                        SM_Timer.reset();
+                        shooterState = ShooterState.SSM_START;
+                    }
+                    break;
+                default:
+                    shooterState = ShooterState.SSM_START;
+            }
+        } else {
+            shooterState = ShooterState.SSM_START;
+        }
+    }
 
 }
 

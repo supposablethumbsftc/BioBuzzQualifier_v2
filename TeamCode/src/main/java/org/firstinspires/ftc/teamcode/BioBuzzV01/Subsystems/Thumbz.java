@@ -14,16 +14,16 @@ import org.firstinspires.ftc.teamcode.BioBuzzV01.AbstractClasses.Subsystem;
 public class Thumbz extends Subsystem {
     public static final int intake_stop_time_ms = 0;
     public static final double intake_stop_time_sec = 0;
-    public static final int thumbz_open_time_ms = 150;
-    public static final double thumbz_open_time_sec = .150;
-    public static final int thumbz_open_time1_ms = 150;
-    public static final double thumbz_open_time1_sec = .150;
-    public static final int thumbz_open_time2_ms = 150;
-    public static final double thumbz_open_time2_sec = .150;
-    public static final int thumbz_open_time3_ms = 300;
-    public static final double thumbz_open_time3_sec = .300;
+    public static final int thumbz_open_time_ms = 75;
+    public static final double thumbz_open_time_sec = .75;
+    public static final int thumbz_open_time1_ms = 75;
+    public static final double thumbz_open_time1_sec = .75;
+    public static final int thumbz_open_time2_ms = 75;
+    public static final double thumbz_open_time2_sec = .75;
+    public static final int thumbz_open_time3_ms = 150;
+    public static final double thumbz_open_time3_sec = .150;
 
-    public static final int ball_fire_time_ms = 1100;
+    public static final int ball_fire_time_ms = 550;
     public static final double ball_fire_time_sec = 1.100;
 
     public static final int thumbz_near_block_time_ms = 300;
@@ -74,39 +74,39 @@ public class Thumbz extends Subsystem {
 
     @Override
     public void teleopServoInit() {
-        thumbzServo1.setPosition(1);
-        thumbzServo2.setPosition(0);
+        thumbzServo1.setPosition(.65);
+        thumbzServo2.setPosition(.35);
     }
 
     @Override
     public void autonomousServoInit() {
-        thumbzServo1.setPosition(1);
-        thumbzServo2.setPosition(0);
+        thumbzServo1.setPosition(.65);
+        thumbzServo2.setPosition(.35);
     }
 
 
     public void open(){
-        thumbzServo1.setPosition(.4);//left servo
-        thumbzServo2.setPosition(.35);//right servo
+        thumbzServo1.setPosition(.35);//left servo
+        thumbzServo2.setPosition(.7);//right servo
     }
     public void block(){
-        thumbzServo1.setPosition(.6);
-        thumbzServo2.setPosition(0);
+        thumbzServo1.setPosition(.65);
+        thumbzServo2.setPosition(.35);
     }
     public void halfopen(){
-        thumbzServo1.setPosition(.8);
-        thumbzServo2.setPosition(.1);
+        thumbzServo1.setPosition(.3);
+        thumbzServo2.setPosition(.7);
     }
 
 
     public Action thumbzAction(Thumbz.Pos thumbzPos){
-        return new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                thumbzServo1.setPosition(thumbzPos.pos);
-                thumbzServo2.setPosition(Math.abs(1-thumbzPos.pos));
-                return false;
-            }
-        };
-    }
+            return new Action() {
+                @Override
+                public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                    thumbzServo1.setPosition(thumbzPos.pos);
+                    thumbzServo2.setPosition(Math.abs(1-thumbzPos.pos));
+                    return false;
+                }
+            };
+        }
 }
