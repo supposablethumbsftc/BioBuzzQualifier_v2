@@ -225,6 +225,8 @@ public class AutoDownParkRescue extends LinearOpMode {
     }
         else { // tagnotfound
             robot.turret.setturretpos(.5);
+            robot.intake.takein();
+            robot.transfer.takein();
             Actions.runBlocking(
                     boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                             .strafeToConstantHeading(new Vector2d(4, 24))
@@ -232,8 +234,8 @@ public class AutoDownParkRescue extends LinearOpMode {
                             .build());
             Actions.runBlocking(
                     boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
-                            .splineToLinearHeading(new Pose2d(6, 65, Math.toRadians(-90)), Math.toRadians(90))
-                            .splineToLinearHeading(new Pose2d(6, 105, Math.toRadians(-90)), Math.toRadians(90))
+                            .splineToLinearHeading(new Pose2d(4, 65, Math.toRadians(-90)), Math.toRadians(90))
+                            .splineToLinearHeading(new Pose2d(4, 105, Math.toRadians(-90)), Math.toRadians(90))
                             .build());
             voltage = controlHub.getInputVoltage(VoltageUnit.VOLTS);
             robot.shooter.nearV(voltage);
@@ -281,7 +283,7 @@ public class AutoDownParkRescue extends LinearOpMode {
                     boxermechanumdrive.actionBuilder(boxermechanumdrive.localizer.getPose())
                             // .splineToLinearHeading(new Pose2d(4,14,Math.toRadians(0)), Math.toRadians(0))
                             .splineToLinearHeading(new Pose2d(42, 20, Math.toRadians(-90)), Math.toRadians(-90))
-                            .splineToLinearHeading(new Pose2d(46, 16, Math.toRadians(0)), Math.toRadians(-45))
+                            .splineToLinearHeading(new Pose2d(44, 16, Math.toRadians(0)), Math.toRadians(-45))
                             .build());
         }
     }
