@@ -138,16 +138,30 @@ public class AutoDownPark extends LinearOpMode {
         //        shoot
 //Turn on intake
 
-        robot.thumbz.open();
+            // shoot four pollen
+            robot.thumbz.open();
+            robot.pause(70);
+            robot.thumbz.block();
+            robot.pause(400);
+            robot.thumbz.open();
+            robot.pause(70);
+            robot.thumbz.block();
+            robot.pause(400);
+            robot.thumbz.open();
+            robot.pause(70);
+            robot.thumbz.block();
+            robot.pause(400);
+            robot.thumbz.open();
+            robot.pause(70);
+            robot.thumbz.block();
+            robot.pause(400);
 
-        robot.pause(1000);
-            // close Blockers
-        robot.thumbz.block();
-            robot.pause(500);
+            //try again if stuck
             robot.thumbz.open();
             robot.pause(500);
             robot.thumbz.block();
-        robot.shooter.stop();
+            robot.pause(500);
+        //robot.shooter.stop();
         //  robot.turret.setturretpos(.5);
 
         //                flower x=8, y=6, -90
@@ -172,13 +186,29 @@ public class AutoDownPark extends LinearOpMode {
 
         robot.turret.setturretpos(.99);
         robot.pause(1000);
-        robot.thumbz.open();
-        robot.pause(2000);
-        robot.thumbz.block();
-            robot.pause(500);
+            // shoot four pollen
+            robot.thumbz.open();
+            robot.pause(70);
+            robot.thumbz.block();
+            robot.pause(400);
+            robot.thumbz.open();
+            robot.pause(70);
+            robot.thumbz.block();
+            robot.pause(400);
+            robot.thumbz.open();
+            robot.pause(70);
+            robot.thumbz.block();
+            robot.pause(400);
+            robot.thumbz.open();
+            robot.pause(70);
+            robot.thumbz.block();
+            robot.pause(400);
+
+            //try again if stuck
             robot.thumbz.open();
             robot.pause(500);
             robot.thumbz.block();
+            robot.pause(500);
         robot.shooter.stop();
     }
         robot.funnel.off();

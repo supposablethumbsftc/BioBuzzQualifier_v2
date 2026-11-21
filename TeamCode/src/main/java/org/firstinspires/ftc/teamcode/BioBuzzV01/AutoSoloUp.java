@@ -66,14 +66,29 @@ public class AutoSoloUp extends LinearOpMode {
         robot.intake.takein();
         robot.transfer.takein();
         robot.pause(4000);
+        // shoot four pollen
         robot.thumbz.open();
+        robot.pause(70);
+        robot.thumbz.block();
+        robot.pause(400);
+        robot.thumbz.open();
+        robot.pause(70);
+        robot.thumbz.block();
+        robot.pause(400);
+        robot.thumbz.open();
+        robot.pause(70);
+        robot.thumbz.block();
+        robot.pause(400);
+        robot.thumbz.open();
+        robot.pause(70);
+        robot.thumbz.block();
+        robot.pause(400);
 
-        robot.pause(1000);
-        robot.thumbz.block();
-        robot.pause(500);
+        //try again if stuck
         robot.thumbz.open();
         robot.pause(500);
         robot.thumbz.block();
+        robot.pause(500);
        // robot.shooter.stop();
         robot.turret.setturretpos(.5);
         // close Blockers
@@ -99,13 +114,29 @@ public class AutoSoloUp extends LinearOpMode {
 
        // robot.turret.setturretpos(.99);
        // robot.pause(1000);
+        // shoot four pollen
         robot.thumbz.open();
-        robot.pause(2000);
+        robot.pause(70);
+        robot.thumbz.block();
+        robot.pause(400);
+        robot.thumbz.open();
+        robot.pause(70);
+        robot.thumbz.block();
+        robot.pause(400);
+        robot.thumbz.open();
+        robot.pause(70);
+        robot.thumbz.block();
+        robot.pause(400);
+        robot.thumbz.open();
+        robot.pause(70);
+        robot.thumbz.block();
+        robot.pause(400);
+
+        //try again if stuck
+        robot.thumbz.open();
+        robot.pause(500);
         robot.thumbz.block();
         robot.pause(500);
-        robot.thumbz.open();
-        robot.pause(500);
-        robot.thumbz.block();
      //   robot.shooter.stop();
 //                Flower
         robot.funnel.on();
@@ -122,13 +153,29 @@ public class AutoSoloUp extends LinearOpMode {
 
 //                Shoot
         robot.turret.setturretpos(.99);
+        // shoot four pollen
         robot.thumbz.open();
-        robot.pause(2000);
+        robot.pause(70);
+        robot.thumbz.block();
+        robot.pause(400);
+        robot.thumbz.open();
+        robot.pause(70);
+        robot.thumbz.block();
+        robot.pause(400);
+        robot.thumbz.open();
+        robot.pause(70);
+        robot.thumbz.block();
+        robot.pause(400);
+        robot.thumbz.open();
+        robot.pause(70);
+        robot.thumbz.block();
+        robot.pause(400);
+
+        //try again if stuck
+        robot.thumbz.open();
+        robot.pause(500);
         robot.thumbz.block();
         robot.pause(500);
-        robot.thumbz.open();
-        robot.pause(500);
-        robot.thumbz.block();
         robot.funnel.off();
 //                park/collect nectar
         Actions.runBlocking(

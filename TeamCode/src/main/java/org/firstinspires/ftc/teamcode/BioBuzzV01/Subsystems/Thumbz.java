@@ -16,8 +16,8 @@ public class Thumbz extends Subsystem {
     public static final double intake_stop_time_sec = 0;
     public static final int thumbz_open_time_ms = 75;
     public static final double thumbz_open_time_sec = .75;
-    public static final int thumbz_open_time1_ms = 60;
-    public static final double thumbz_open_time1_sec = .60;
+    public static final int thumbz_open_time1_ms = 68;
+    public static final double thumbz_open_time1_sec = .68;
     public static final int thumbz_open_time2_ms = 75;
     public static final double thumbz_open_time2_sec = .75;
     public static final int thumbz_open_time3_ms = 150;
